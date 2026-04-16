@@ -25,9 +25,9 @@ const HomePage = () => {
   ];
 
   return (
-    <div className="pt-20">
-      {/* Hero Section */}
-      <section className="relative min-h-[90vh] w-full overflow-hidden">
+    <div>
+      {/* Hero Section — negative margin pulls it behind the fixed nav so no gap is possible */}
+      <section className="relative min-h-[calc(100vh+5rem)] -mt-20 w-full overflow-hidden">
         <div
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
           style={{
@@ -36,7 +36,7 @@ const HomePage = () => {
         />
         <div className="absolute inset-0 bg-surface-dark/60" />
 
-        <div className="relative z-10 flex items-center h-full min-h-[90vh] px-6 lg:px-8">
+        <div className="relative z-10 flex items-center h-full min-h-[calc(100vh+5rem)] pt-40 px-6 lg:px-8">
           <div className="max-w-7xl mx-auto w-full">
             <motion.div
               initial={{ opacity: 0 }}
