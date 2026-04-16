@@ -1,0 +1,35 @@
+import React from 'react';
+import { HashRouter as Router, Routes, Route } from 'react-router-dom';
+import Navigation from './components/Navigation';
+import Footer from './components/Footer';
+import HomePage from './pages/HomePage';
+import NaturalStonePage from './pages/NaturalStonePage';
+import QuartzPage from './pages/QuartzPage';
+import AppointmentsPage from './pages/AppointmentsPage';
+import ContactPage from './pages/ContactPage';
+import ProductDetailPage from './pages/ProductDetailPage';
+import './App.css';
+
+function App() {
+  return (
+    <Router>
+      <div className="min-h-screen flex flex-col">
+        <Navigation />
+        <main className="flex-1">
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/natural-stone" element={<NaturalStonePage />} />
+            <Route path="/natural-stone/:id" element={<ProductDetailPage />} />
+            <Route path="/quartz" element={<QuartzPage />} />
+            <Route path="/quartz/:id" element={<ProductDetailPage />} />
+            <Route path="/appointments" element={<AppointmentsPage />} />
+            <Route path="/contact" element={<ContactPage />} />
+          </Routes>
+        </main>
+        <Footer />
+      </div>
+    </Router>
+  );
+}
+
+export default App;
