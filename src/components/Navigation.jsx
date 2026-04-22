@@ -31,7 +31,9 @@ const Navigation = () => {
       name: 'Collections',
       dropdown: [
         { name: 'Natural Stone', path: '/natural-stone' },
-        { name: 'Quartz', path: '/quartz' }
+        { name: 'Quartz', path: '/quartz' },
+        { name: 'Shower Panels', path: '/shower-panels' },
+        { name: 'Cabinets', path: '/cabinets' }
       ]
     },
     { name: 'Appointments', path: '/appointments' },
