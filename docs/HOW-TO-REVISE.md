@@ -228,3 +228,25 @@ Then `npm run test:visual:update` to create its baseline.
 ## Fallback — if you want something none of these cover
 
 Describe what you want in plain language. A design spec will be written, concrete options will be proposed, you'll choose one, and it will be implemented, tested, and changelogged. The brainstorming → spec → plan → implementation workflow documented in `docs/superpowers/` is how every previous revision round on this project was handled.
+
+---
+
+## Swapping in real product data for a category
+
+The four listing pages each hold their mock product data inline as a single array near the top of the component file. When the client supplies real products for a category, replace the array — no other changes needed.
+
+**File per category:**
+
+- Natural Stone → `src/pages/NaturalStonePage.jsx` (array: `naturalStones`)
+- Quartz → `src/pages/QuartzPage.jsx` (array: `quartzProducts`)
+- Shower Panels → `src/pages/ShowerPanelsPage.jsx` (array: `showerPanels`)
+- Cabinets → `src/pages/CabinetsPage.jsx` (array: `cabinets`)
+
+**Steps:**
+
+1. Open the file, find the product array.
+2. Replace each object with real data, keeping the same field names. Filter keys are `type`/`color`/`finish`/`origin` for stone, `brand`/`color`/`pattern`/`finish` for quartz, `material`/`color`/`size`/`finish` for shower panels, `style`/`wood`/`color`/`doorType` for cabinets.
+3. The detail pages (`ProductDetailPage.jsx`, `ShowerPanelDetailPage.jsx`, `CabinetDetailPage.jsx`) currently hard-code a single product. Update the object there too if the client wants a specific featured product on the detail route.
+4. Run `npm run build`, then `npm run test:visual`. Card images and product-name text will shift — if the shift is intentional, run `npm run test:visual:update` and commit the new baselines.
+
+**Why it's simple:** none of the listing logic (filters, grid layout, card template) cares about the product identities. It just iterates whatever is in the array. Adding a 5th or 10th product works the same way — just push a new object onto the array.
