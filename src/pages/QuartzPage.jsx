@@ -112,9 +112,9 @@ const QuartzPage = () => {
             transition={{ duration: 0.5 }}
           >
             <p className="label-text mb-4">Collection</p>
-            <h1 className="font-display text-6xl sm:text-7xl lg:text-8xl font-bold text-surface-dark leading-[0.95] tracking-tight mb-8">
+            <h1 className="font-display text-6xl sm:text-7xl lg:text-8xl font-bold text-accent leading-[0.95] tracking-tight mb-8">
               Engineered<br />
-              <span className="italic font-normal text-accent">Quartz</span>
+              <span className="italic font-normal text-accent-warm">Quartz</span>
             </h1>
             <p className="font-body text-base text-stone-500 max-w-2xl leading-relaxed">
               Experience the perfect blend of natural beauty and modern engineering.
@@ -312,7 +312,7 @@ const QuartzPage = () => {
 
           {filteredQuartz.length === 0 && (
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-center py-20">
-              <h3 className="font-display text-3xl font-bold text-surface-dark mb-4">No products found</h3>
+              <h3 className="font-display text-3xl font-bold text-accent mb-4">No products found</h3>
               <p className="font-body text-sm text-stone-500 mb-8">Try adjusting your filters or search terms</p>
               <button
                 onClick={() => {
@@ -338,7 +338,7 @@ const QuartzPage = () => {
             viewport={{ once: true }}
           >
             <p className="label-text mb-4">Why Quartz</p>
-            <h2 className="font-display text-4xl sm:text-5xl font-bold text-surface-dark mb-6">
+            <h2 className="font-display text-4xl sm:text-5xl font-bold text-accent mb-6">
               Why Choose Engineered Quartz?
             </h2>
             <p className="font-body text-base text-stone-500 mb-10 max-w-xl mx-auto leading-relaxed">
