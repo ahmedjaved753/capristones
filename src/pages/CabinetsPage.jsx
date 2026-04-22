@@ -21,7 +21,7 @@ const CabinetsPage = () => {
       id: 1,
       name: 'Shaker White Oak',
       style: 'Shaker',
-      wood: 'Oak',
+      wood: 'White Oak',
       color: 'Natural',
       doorType: 'Full Overlay',
       price: '$420/linear ft',
@@ -74,7 +74,7 @@ const CabinetsPage = () => {
 
   const filterOptions = {
     style: ['All', 'Shaker', 'Flat Panel', 'Raised Panel', 'Slab'],
-    wood: ['All', 'Oak', 'Maple', 'Walnut', 'Cherry', 'Painted MDF'],
+    wood: ['All', 'White Oak', 'Maple', 'Walnut', 'Cherry', 'Painted MDF'],
     color: ['All', 'White', 'Natural', 'Espresso', 'Gray', 'Custom'],
     doorType: ['All', 'Full Overlay', 'Inset', 'Partial']
   };
