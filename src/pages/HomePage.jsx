@@ -158,6 +158,7 @@ const HomePage = () => {
                     </div>
                   </div>
                   <div className="pt-6 pb-2">
+                    {/* Product names stay ink — orange here would compete with the product photography. */}
                     <h3 className="font-display text-3xl font-bold text-surface-dark group-hover:text-accent transition-colors duration-200">
                       {category.name}
                     </h3>

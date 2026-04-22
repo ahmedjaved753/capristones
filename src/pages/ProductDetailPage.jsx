@@ -130,6 +130,7 @@ const ProductDetailPage = () => {
 
               {/* Title & Price */}
               <div>
+                {/* Product name stays ink — price below is the orange moment; making both terracotta flattens hierarchy. */}
                 <h1 className="font-display text-4xl sm:text-5xl font-bold text-surface-dark leading-tight">
                   {product.name}
                 </h1>

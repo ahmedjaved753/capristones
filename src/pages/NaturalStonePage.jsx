@@ -231,6 +231,7 @@ const NaturalStonePage = () => {
                         <div>
                           <div className="flex justify-between items-start mb-3">
                             <div>
+                              {/* Product names stay ink — orange here would compete with the product photography. */}
                               <h3 className="font-display text-2xl font-bold text-surface-dark group-hover:text-accent transition-colors duration-200">
                                 {stone.name}
                               </h3>
