@@ -43,9 +43,9 @@ const ContactSection = () => {
         >
           <p className="label-text mb-4">Get in Touch</p>
           <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between">
-            <h2 className="font-display text-4xl sm:text-5xl lg:text-6xl font-bold text-surface-dark leading-[1.05]">
+            <h2 className="font-display text-4xl sm:text-5xl lg:text-6xl font-bold text-accent leading-[1.05]">
               Let's Start{' '}
-              <span className="italic font-normal">Your Project</span>
+              <span className="italic font-normal text-accent-warm">Your Project</span>
             </h2>
             <p className="font-body text-base text-stone-500 max-w-md mt-4 lg:mt-0 leading-relaxed">
               Ready to transform your space? Get in touch with our team for a
@@ -114,7 +114,7 @@ const ContactSection = () => {
             viewport={{ once: true }}
             className="border border-stone-200 p-8 lg:p-10 bg-white"
           >
-            <h3 className="font-display text-2xl font-bold text-surface-dark mb-8">
+            <h3 className="font-display text-2xl font-bold text-accent mb-8">
               Send Us a Message
             </h3>
 
