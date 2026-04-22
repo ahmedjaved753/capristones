@@ -40,7 +40,7 @@ const Footer = () => {
               viewport={{ once: true }}
               className="lg:col-span-1"
             >
-              <h3 className="font-display text-3xl font-bold mb-6">Premium Stones</h3>
+              <h3 className="font-display text-3xl font-bold text-accent-warm mb-6">Premium Stones</h3>
               <p className="font-body text-sm text-stone-400 leading-relaxed max-w-xs">
                 Transforming homes with premium natural stone and engineered quartz
                 surfaces for over 15 years.
