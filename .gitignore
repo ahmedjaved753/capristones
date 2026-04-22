@@ -29,6 +29,9 @@ dist-ssr
 .playwright-mcp/
 # Visual regression baselines ARE committed — they define "what the site should look like"
 !tests/visual.spec.js-snapshots/*.png
+# Changelog screenshots (client-facing before/after assets) ARE committed
+!docs/changelog/assets/before/*.png
+!docs/changelog/assets/after/*.png
 
 # Claude Code local state
 .claude/
