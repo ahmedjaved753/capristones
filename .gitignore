@@ -27,7 +27,16 @@ dist-ssr
 *.jpeg
 *.jpg
 .playwright-mcp/
+# Visual regression baselines ARE committed — they define "what the site should look like"
+!tests/visual.spec.js-snapshots/*.png
 
 # Claude Code local state
 .claude/
 skills-lock.json
+
+# Playwright visual regression test artifacts (not baselines — those live under
+# tests/visual.spec.js-snapshots/ and ARE committed)
+test-results/
+playwright-report/
+/blob-report/
+/playwright/.cache/
