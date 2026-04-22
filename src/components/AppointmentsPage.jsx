@@ -64,7 +64,7 @@ const AppointmentsPage = () => {
             <div className="w-16 h-16 border-2 border-accent flex items-center justify-center mx-auto mb-6">
               <SafeIcon icon={FiCheck} className="text-2xl text-accent" />
             </div>
-            <h2 className="font-display text-3xl font-bold text-surface-dark mb-4">
+            <h2 className="font-display text-3xl font-bold text-accent mb-4">
               Appointment Confirmed
             </h2>
             <p className="font-body text-sm text-stone-500 mb-8">
@@ -108,9 +108,9 @@ const AppointmentsPage = () => {
           className="mb-16"
         >
           <p className="label-text mb-4">Appointments</p>
-          <h1 className="font-display text-5xl sm:text-6xl font-bold text-surface-dark leading-[1.05] mb-6">
+          <h1 className="font-display text-5xl sm:text-6xl font-bold text-accent leading-[1.05] mb-6">
             Book Your{' '}
-            <span className="italic font-normal">Appointment</span>
+            <span className="italic font-normal text-accent-warm">Appointment</span>
           </h1>
           <p className="font-body text-base text-stone-500 max-w-2xl leading-relaxed">
             Schedule a consultation with our design experts to discuss your project
@@ -127,7 +127,7 @@ const AppointmentsPage = () => {
             className="lg:col-span-2"
           >
             <div className="border border-stone-200 bg-white p-8 lg:p-12">
-              <h2 className="font-display text-2xl font-bold text-surface-dark mb-8">
+              <h2 className="font-display text-2xl font-bold text-accent mb-8">
                 Schedule Your Visit
               </h2>
 
@@ -272,7 +272,7 @@ const AppointmentsPage = () => {
           >
             {/* Showroom Info */}
             <div className="border border-stone-200 bg-white p-8">
-              <h3 className="font-display text-xl font-bold text-surface-dark mb-6">
+              <h3 className="font-display text-xl font-bold text-accent mb-6">
                 Visit Our Showroom
               </h3>
               <div className="space-y-5">
@@ -296,7 +296,7 @@ const AppointmentsPage = () => {
 
             {/* What to Expect */}
             <div className="border border-stone-200 p-8">
-              <h3 className="font-display text-xl font-bold text-surface-dark mb-6">
+              <h3 className="font-display text-xl font-bold text-accent mb-6">
                 What to Expect
               </h3>
               <div className="space-y-4">
