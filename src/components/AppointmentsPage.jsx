@@ -19,6 +19,7 @@ const AppointmentsPage = () => {
 
   const serviceTypes = [
     'Stone Consultation',
+    'Shower Panel Consultation',
     'Cabinet Design',
     'General Visit',
     'Installation Planning',
