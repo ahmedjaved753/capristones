@@ -7,6 +7,7 @@ import HomePage from './pages/HomePage';
 import NaturalStonePage from './pages/NaturalStonePage';
 import QuartzPage from './pages/QuartzPage';
 import ShowerPanelsPage from './pages/ShowerPanelsPage';
+import ShowerPanelDetailPage from './pages/ShowerPanelDetailPage';
 import AppointmentsPage from './pages/AppointmentsPage';
 import ContactPage from './pages/ContactPage';
 import ProductDetailPage from './pages/ProductDetailPage';
@@ -26,6 +27,7 @@ function App() {
             <Route path="/quartz" element={<QuartzPage />} />
             <Route path="/quartz/:id" element={<ProductDetailPage />} />
             <Route path="/shower-panels" element={<ShowerPanelsPage />} />
+            <Route path="/shower-panels/:id" element={<ShowerPanelDetailPage />} />
             <Route path="/appointments" element={<AppointmentsPage />} />
             <Route path="/contact" element={<ContactPage />} />
           </Routes>
