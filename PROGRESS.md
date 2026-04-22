@@ -4,14 +4,23 @@ Living status document for the Premium Stones website. Reverse-chronological rev
 
 ## Current state (as of 2026-04-22)
 
-- **Pages live:** Home, Natural Stone listing + detail, Quartz listing + detail, Appointments, Contact.
+- **Pages live:** Home, Natural Stone listing + detail, Quartz listing + detail, Shower Panels listing + detail, Cabinets listing + detail, Appointments, Contact. (8 pages total, up from 6.)
 - **Palette:** terracotta `#B8431E` + warm sienna `#E07A3C` + peach-cream veil `#FBEBDD` on near-white `#FAFAF9` / near-black `#1C1917`. See `CLAUDE.md` "Palette" section.
 - **Typography:** Cormorant serif (display) + Montserrat sans (body). Unchanged since editorial revamp.
 - **Data:** All product data is mocked in-component. Supabase is installed but not wired up.
-- **Testing:** Playwright visual regression covers all 6 routes — 12 baseline screenshots in `tests/visual.spec.js-snapshots/`. Run `npm run test:visual` before committing any user-facing change.
+- **Testing:** Playwright visual regression covers 10 routes — 20 baseline screenshots in `tests/visual.spec.js-snapshots/`. Run `npm run test:visual` before committing any user-facing change.
 - **Open items:** none currently tracked. If client feedback arrives, new revision rounds get their own spec + plan + changelog entry and append to the log below.
 
 ## Revision log
+
+### 2026-04-22 — Shower Panels and Cabinets categories
+
+Added two new product categories (Shower Panels, Cabinets) to the Collections dropdown, each with its own listing page and dedicated detail page. Partially reversed the 2026-04-16 scope pruning for Cabinets; Shower Panels is a net-new category. Home page and existing stone/quartz pages untouched. Three detail components now: stone/quartz shared via `useLocation` dispatch, plus peer `ShowerPanelDetailPage` and `CabinetDetailPage` with category-appropriate specs. Visual regression extended from 12 to 20 baselines.
+
+- **Spec:** [`docs/superpowers/specs/2026-04-22-new-categories-design.md`](docs/superpowers/specs/2026-04-22-new-categories-design.md)
+- **Plan:** [`docs/superpowers/plans/2026-04-22-new-categories.md`](docs/superpowers/plans/2026-04-22-new-categories.md)
+- **Client changelog (with before/after visuals):** [`docs/changelog/2026-04-22-new-categories.md`](docs/changelog/2026-04-22-new-categories.md)
+- **Commits:** see `git log` for SHA range on `main`
 
 ### 2026-04-22 — Orange/white theme retheme
 
