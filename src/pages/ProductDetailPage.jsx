@@ -199,7 +199,7 @@ const ProductDetailPage = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.3 }}
             >
-              <h3 className="font-display text-2xl font-bold text-surface-dark mb-6">Applications</h3>
+              <h3 className="font-display text-2xl font-bold text-accent mb-6">Applications</h3>
               <div className="space-y-2">
                 {product.applications.map((application) => (
                   <div key={application} className="flex items-center gap-3 py-3 border-b border-stone-100">
@@ -216,7 +216,7 @@ const ProductDetailPage = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.4 }}
             >
-              <h3 className="font-display text-2xl font-bold text-surface-dark mb-6">Technical Specifications</h3>
+              <h3 className="font-display text-2xl font-bold text-accent mb-6">Technical Specifications</h3>
               <div className="space-y-0">
                 {Object.entries(product.specifications).map(([key, value]) => (
                   <div key={key} className="flex justify-between py-3 border-b border-stone-100">
@@ -235,7 +235,7 @@ const ProductDetailPage = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.5 }}
             >
-              <h3 className="font-display text-2xl font-bold text-surface-dark mb-6">Care & Maintenance</h3>
+              <h3 className="font-display text-2xl font-bold text-accent mb-6">Care & Maintenance</h3>
               <div className="space-y-3">
                 {product.care.map((instruction, index) => (
                   <div key={index} className="flex items-start gap-3">
@@ -259,7 +259,7 @@ const ProductDetailPage = () => {
             viewport={{ once: true }}
           >
             <p className="label-text mb-4">Next Steps</p>
-            <h2 className="font-display text-4xl sm:text-5xl font-bold text-surface-dark mb-6">
+            <h2 className="font-display text-4xl sm:text-5xl font-bold text-accent mb-6">
               Ready to Use This Material?
             </h2>
             <p className="font-body text-base text-stone-500 mb-10 max-w-xl mx-auto leading-relaxed">
