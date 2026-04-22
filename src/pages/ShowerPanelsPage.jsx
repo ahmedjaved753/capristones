@@ -65,7 +65,7 @@ const ShowerPanelsPage = () => {
       size: 'Custom',
       finish: 'Polished',
       price: '$85/sq ft',
-      image: 'https://images.unsplash.com/photo-1615971677499-5467cbab01c0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
+      image: 'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
       description: 'Engineered quartz panel fabricated to your exact shower dimensions, with Carrara-style veining throughout.',
       characteristics: ['Custom sizing', 'Non-porous', 'Consistent pattern'],
       applications: ['Shower walls', 'Tub surrounds', 'Luxury master baths']
