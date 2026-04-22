@@ -13,9 +13,9 @@ export default {
       },
       colors: {
         accent: {
-          DEFAULT: '#A16207',
-          light: '#D4A843',
-          dark: '#7C4D05',
+          DEFAULT: '#B8431E',
+          warm: '#E07A3C',
+          veil: '#FBEBDD',
         },
         surface: {
           DEFAULT: '#FAFAF9',

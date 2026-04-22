@@ -55,7 +55,7 @@ const HomePage = () => {
               className="font-display text-5xl sm:text-6xl lg:text-8xl font-bold text-white leading-[0.95] tracking-tight max-w-4xl"
             >
               Surfaces Built{' '}
-              <span className="italic font-normal text-accent-light">
+              <span className="italic font-normal text-accent-warm">
                 to Last
               </span>
             </motion.h1>
