@@ -1,50 +1,47 @@
-# Design Revamp Progress
+# Project Progress
 
-## Design Direction
-**Style**: Editorial Luxury — sharp, structured, sophisticated
-**Typography**: Cormorant (headings) + Montserrat (body)
-**Colors**: Premium black (#1C1917) + gold (#A16207) on warm white (#FAFAF9)
-**Corners**: 0px (sharp) everywhere
-**Animations**: Decisive, controlled — no bounce/float
+Living status document for the Premium Stones website. Reverse-chronological revision log below. Each entry links to the spec, plan, and changelog for that revision round — those are the source of truth; this file is just the index.
 
-## Progress
+## Current state (as of 2026-04-22)
 
-### Foundation
-- [x] tailwind.config.js — new colors, fonts, animations, 0 radius
-- [x] index.css — Google Fonts import, global style reset, component classes
-- [x] index.html — font preload links, updated title
+- **Pages live:** Home, Natural Stone listing + detail, Quartz listing + detail, Appointments, Contact.
+- **Palette:** terracotta `#B8431E` + warm sienna `#E07A3C` + peach-cream veil `#FBEBDD` on near-white `#FAFAF9` / near-black `#1C1917`. See `CLAUDE.md` "Palette" section.
+- **Typography:** Cormorant serif (display) + Montserrat sans (body). Unchanged since editorial revamp.
+- **Data:** All product data is mocked in-component. Supabase is installed but not wired up.
+- **Testing:** Playwright visual regression covers all 6 routes — 12 baseline screenshots in `tests/visual.spec.js-snapshots/`. Run `npm run test:visual` before committing any user-facing change.
+- **Open items:** none currently tracked. If client feedback arrives, new revision rounds get their own spec + plan + changelog entry and append to the log below.
 
-### Shared Components
-- [x] Navigation.jsx — sharp editorial nav, uppercase tracking, clean dropdown
-- [x] Footer.jsx — structured grid, section headers with tracking, dark bg
-- [x] SafeIcon.jsx — no changes needed (utility)
+## Revision log
 
-### Pages
-- [x] HomePage.jsx — editorial hero, sharp category cards, structured CTA
-- [x] NaturalStonePage.jsx — sharp grid, refined filters, border-based cards
-- [x] QuartzPage.jsx — same pattern as Natural Stone, consistent design
-- [x] ProductDetailPage.jsx — gallery + specs with borders, sharp layout
-- [x] ContactPage.jsx — wrapper (unchanged, delegates to ContactSection)
-- [x] ContactSection.jsx — structured contact with border cards, clean form
-- [x] AppointmentsPage.jsx (component) — sharp booking form, sidebar info
+### 2026-04-22 — Orange/white theme retheme
 
-### Supporting Components (now unused — inlined into pages)
-- [x] HeroSection.jsx — no longer imported (hero inlined in HomePage)
-- [x] ProductGallery.jsx — no longer imported
-- [x] ProductCard.jsx — no longer imported
-- [x] AboutUs.jsx — no longer imported
-- [x] BookingForm.jsx — no longer imported
+Swapped the editorial bronze/gold accent palette for an orange/white palette per client request. Added a third token (`accent-veil`) for soft section washes. Introduced a deliberate heading carve-out: product names stay ink-black so product photography keeps visual dominance. All small accents (prices, icons, bullets, badges, hovers) auto-propagated through the Tailwind token redefinition. Set up Playwright visual regression to lock the design in against accidental drift.
 
-## Design Changes Summary
-1. **Typography**: System fonts → Cormorant (display) + Montserrat (body)
-2. **Colors**: Amber/orange gradients → black (#1C1917) + gold (#A16207) accent
-3. **Corners**: rounded-xl/2xl/3xl/full → 0px everywhere (sharp rectangles)
-4. **Shadows**: shadow-lg/xl/2xl → 1px borders (border-stone-200)
-5. **Buttons**: Gradient rounded-full → uppercase tracking, sharp rectangles
-6. **Animations**: Bounce/float/scale → decisive slide-up, opacity fade
-7. **Layout**: Card-based rounded → editorial grid with line dividers
-8. **Labels**: Regular text → uppercase tracking-widest micro-labels
-9. **Navigation**: Rounded glassmorphic → clean border-bottom, sharp dropdown
-10. **Footer**: Rounded social icons → minimal text links, structured grid
+- **Spec:** [`docs/superpowers/specs/2026-04-22-orange-white-theme-design.md`](docs/superpowers/specs/2026-04-22-orange-white-theme-design.md)
+- **Plan:** [`docs/superpowers/plans/2026-04-22-orange-white-theme.md`](docs/superpowers/plans/2026-04-22-orange-white-theme.md)
+- **Client changelog (with before/after visuals):** [`docs/changelog/2026-04-22-orange-white-theme.md`](docs/changelog/2026-04-22-orange-white-theme.md)
+- **Revision playbook:** [`docs/HOW-TO-REVISE.md`](docs/HOW-TO-REVISE.md) (if the client asks for further tweaks, start here)
+- **Commits:** `2757000…2cbc78c` on `main`
 
-## COMPLETE ✓
+### 2026-04-16 — Editorial luxury revamp + scope pruning
+
+Redirected the design away from the pre-revamp "amber gradient + rounded corners + soft shadows" styling to a sharp editorial aesthetic (Cormorant serif, 0px radius, 1px borders, structural uppercase labels, Framer Motion reveals on scroll). At the same time, pruned out-of-scope pages (Slabs, Tiles, Cabinets, Resources, Portfolio, Catalog) to match the client-confirmed six-page scope.
+
+- **Commit:** `1e3148c Complete design revamp: editorial luxury aesthetic` (plus follow-ups `9338356` mobile gap, `1444ac6` scroll-to-top)
+- Spec/plan not captured at the time — this revision predates the spec/plan/changelog workflow.
+
+### Pre-2026-04-16 — Initial build
+
+Initial project scaffold using `quest-react-starter`, Vite + React + Tailwind, HashRouter, mocked product data. Palette used raw `amber-500 / orange-500` gradients, rounded cards, glassmorphic touches.
+
+## Conventions for future revisions
+
+When adding a new entry to this log:
+
+1. **Date format:** `YYYY-MM-DD — Short title` as the H3 heading.
+2. **Body:** one short paragraph describing what changed and *why* (client request? bug? polish?). Link the spec, plan, and changelog docs.
+3. **Commits:** include the SHA range on `main` so a future reader can `git log <range>` for detail.
+4. **Update the "Current state" block above** if anything in it changed (palette, scope, active tests, etc.).
+5. **Remove items from "Open items"** as they ship.
+
+The workflow that keeps this file up to date lives in `CLAUDE.md` under "Documentation maintenance workflow" — future Claude Code sessions follow it automatically when they make a change.

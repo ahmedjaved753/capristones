@@ -16,6 +16,49 @@ npm run test:visual:update # Accept current look as new baseline (run after inte
 
 **When to run the visual tests:** before committing any change that could affect how pages render — CSS, Tailwind classes, token edits, component markup, Framer Motion. If a test fails and the change was *intentional*, run `test:visual:update` to regenerate baselines; if the change was accidental, fix the code. Baselines live in `tests/visual.spec.js-snapshots/` and are committed. Full rationale and caveats in `tests/README.md`.
 
+## Documentation Workflow
+
+This project is client-facing and goes through revision rounds over time. To keep documentation accurate rather than letting it rot, **every change follows the workflow below.** Future Claude Code sessions: treat this as a hard rule, not a suggestion.
+
+### Where every doc lives, and what it owns
+
+| File | Owns | Update when… |
+|---|---|---|
+| `CLAUDE.md` (this file) | Commands, architecture, palette, conventions, carve-outs | Anything in those areas changes |
+| `PROGRESS.md` | Current state summary + reverse-chron revision log | Every revision round (new entry with date + links) |
+| `docs/changelog/<date>-<topic>.md` | Client-facing release notes with before/after screenshots | Every revision round that affects what the client sees |
+| `docs/HOW-TO-REVISE.md` | Recipes for common client-feedback tweaks | When a new kind of tweak becomes common OR a recipe stops being accurate |
+| `docs/superpowers/specs/<date>-<topic>.md` | Engineering rationale for a specific round (tokens, rules, risks) | Written once per round during brainstorming; not edited after |
+| `docs/superpowers/plans/<date>-<topic>.md` | Task-by-task edit list for a specific round | Written once per round during planning; not edited after |
+| `tests/README.md` | How the visual-regression system works | If the testing setup itself changes |
+| `tests/visual.spec.js-snapshots/` | Source of truth for "what the site should look like" | After every intentional visual change (`npm run test:visual:update`) |
+
+### The per-change checklist
+
+For every meaningful change (features, CSS edits, palette tweaks, scope changes — not typo-fixes in a comment):
+
+1. **Make the change.**
+2. **Run `npm run build`** — catch class-name typos before commit.
+3. **Run `npm run test:visual`.** If it fails:
+   - Intentional → `npm run test:visual:update` → stage the updated baselines alongside the code change.
+   - Unintentional → fix the code.
+4. **Update `CLAUDE.md`** if the change touched: commands, architecture, palette, conventions, or the carve-out list.
+5. **Update `PROGRESS.md`** if this is a meaningful revision round — add a new dated entry to the revision log with links to the spec/plan/changelog for the round.
+6. **Update `docs/HOW-TO-REVISE.md`** if the change either:
+   - Introduced a new tweakable knob that future revisions might target (add a recipe), OR
+   - Made an existing recipe obsolete (remove or correct it).
+7. **Add to `docs/changelog/`** if the change is client-facing — new dated file with before/after screenshots.
+8. **Commit the code AND the doc updates together.** Not in two separate commits — one atomic unit.
+
+### Rules of thumb
+
+- **Don't create a new doc if an existing one can absorb the update.** Doc proliferation is what causes rot. The inventory above is the complete set; extending it requires a good reason.
+- **Edit, don't append.** When palette or conventions change, EDIT the `CLAUDE.md` palette section to reflect the new state — don't leave the old description next to "UPDATE: now different." CLAUDE.md reads from top to bottom; stale mixed with current is worse than missing.
+- **Changelogs are append-only.** Never rewrite a previous changelog entry. If you undo a change, write a new entry saying "reverted X because Y."
+- **Dates are immutable.** Spec, plan, and changelog filenames use `YYYY-MM-DD`. The date reflects when the work happened; don't rename later.
+- **If you skip a step, say why in the commit message.** E.g., "Skipped CLAUDE.md update — no architectural change, just a minor copy edit on contact page." Keeps the workflow honest without blocking trivial edits.
+- **Doc rot warning signs to watch for on every session start:** the palette section in CLAUDE.md refers to colors not in `tailwind.config.js`; `PROGRESS.md` "Current state" describes something the code doesn't do; a HOW-TO-REVISE recipe references a line number that no longer matches. If you spot any, fix it as part of whatever else you're doing.
+
 ## Project Scope (updated 2026-04-16)
 
 Client-confirmed scope for the Premium Stones website. Design direction: sharp, structured, sophisticated, high-end.
