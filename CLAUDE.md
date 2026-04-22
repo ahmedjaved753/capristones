@@ -59,19 +59,24 @@ For every meaningful change (features, CSS edits, palette tweaks, scope changes 
 - **If you skip a step, say why in the commit message.** E.g., "Skipped CLAUDE.md update — no architectural change, just a minor copy edit on contact page." Keeps the workflow honest without blocking trivial edits.
 - **Doc rot warning signs to watch for on every session start:** the palette section in CLAUDE.md refers to colors not in `tailwind.config.js`; `PROGRESS.md` "Current state" describes something the code doesn't do; a HOW-TO-REVISE recipe references a line number that no longer matches. If you spot any, fix it as part of whatever else you're doing.
 
-## Project Scope (updated 2026-04-16)
+## Project Scope (updated 2026-04-22)
 
 Client-confirmed scope for the Premium Stones website. Design direction: sharp, structured, sophisticated, high-end.
 
 **In-scope pages:**
-- **Home** (`/`) — hero with premium visuals, headline + CTAs; featured product categories preview (Natural Stone, Quartz); quick links to appointments and contact.
-- **Natural Stone listing** (`/natural-stone`) — grid/gallery view with filtering (color, style) and search.
+- **Home** (`/`) — hero with premium visuals, headline + CTAs; featured product categories preview (Natural Stone, Quartz only — the dropdown surfaces the full set); quick links to appointments and contact.
+- **Natural Stone listing** (`/natural-stone`) — grid/gallery view with filtering (type, color, finish, origin) and search.
 - **Quartz listing** (`/quartz`) — same pattern as Natural Stone.
-- **Product detail** (`/natural-stone/:id`, `/quartz/:id`) — shared `ProductDetailPage` with image gallery, specifications, description, care instructions.
+- **Shower Panels listing** (`/shower-panels`) — filters on material, color, size, finish.
+- **Cabinets listing** (`/cabinets`) — filters on style, wood, color, door type.
+- **Product detail pages:**
+  - `/natural-stone/:id` and `/quartz/:id` share `ProductDetailPage` (stone-centric specs).
+  - `/shower-panels/:id` uses dedicated `ShowerPanelDetailPage` (panel-centric specs: thickness, substrate, edge treatment, etc.).
+  - `/cabinets/:id` uses dedicated `CabinetDetailPage` (cabinet-centric specs: box construction, door style, hardware, etc.).
 - **Appointments / Booking** (`/appointments`) — structured in-page booking form. No floating widgets.
 - **Contact** (`/contact`) — phone, email, address, business hours.
 
-Slabs, Tiles, Cabinets, Resources, Portfolio, and Catalog were removed on 2026-04-16 to align with the confirmed scope.
+History: Slabs, Tiles, Cabinets, Resources, Portfolio, and Catalog were removed on 2026-04-16. On 2026-04-22 the client reinstated Cabinets and added Shower Panels as a net-new category; the other removals remain out of scope.
 
 ## Architecture
 
@@ -83,6 +88,8 @@ Single-page React app for a premium natural stone & quartz showroom. Uses `HashR
 
 **Pages vs Components**: `src/pages/` are route-level containers; `src/components/` are reusable UI pieces composed inside pages. Some route files wrap same-named components (e.g., `pages/AppointmentsPage.jsx` is a thin shell that imports `components/AppointmentsPage.jsx`; `pages/ContactPage.jsx` wraps `components/ContactSection.jsx`).
 
+**Detail pages — three peers, not one shared:** `ProductDetailPage.jsx` serves both Natural Stone and Quartz (it dispatches between them via `useLocation`). Shower Panels and Cabinets each have their own dedicated detail page (`ShowerPanelDetailPage.jsx`, `CabinetDetailPage.jsx`) because their specifications don't map onto stone vocabulary (panels have substrate / water absorption / install system; cabinets have box construction / door style / hardware). The three detail pages share ~80% of their structure; consolidating them with a fourth category would be a useful refactor, but with three categories the duplication is still cheaper than the abstraction.
+
 **`src/common/SafeIcon.jsx`**: Wrapper around `react-icons/fi` (Feather Icons). Always use this instead of importing icons directly — it falls back gracefully on missing icons. Usage: `<SafeIcon icon={FiArrowRight} />` or `<SafeIcon name="ArrowRight" />`.
 
 **Styling**: Tailwind CSS with custom animations defined in `tailwind.config.js`. Path alias `@` resolves to `src/`.
@@ -92,7 +99,7 @@ Single-page React app for a premium natural stone & quartz showroom. Uses `HashR
 - `accent-warm` `#E07A3C` (warm sienna) — decorative only: H1 italic sub-words, hero gradient mid-band, footer brand on dark. Not legible on white below ~24px.
 - `accent-veil` `#FBEBDD` (peach-cream) — section-wash backgrounds. Currently used only on home CTA section.
 
-**Heading carve-out** (important — comments in source flag this so it's not "fixed" as an inconsistency): product-name H1 on `ProductDetailPage` and product-card H3s inside product-grid loops on `HomePage`/`NaturalStonePage`/`QuartzPage` intentionally stay `text-surface-dark` (ink). Orange on those would compete with product photography. Full design rule: `docs/superpowers/specs/2026-04-22-orange-white-theme-design.md`.
+**Heading carve-out** (important — comments in source flag this so it's not "fixed" as an inconsistency): product-name H1 on all three detail pages (`ProductDetailPage`, `ShowerPanelDetailPage`, `CabinetDetailPage`) and product-card H3s inside product-grid loops on `HomePage`/`NaturalStonePage`/`QuartzPage`/`ShowerPanelsPage`/`CabinetsPage` intentionally stay `text-surface-dark` (ink). Orange on those would compete with product photography. Full design rule: `docs/superpowers/specs/2026-04-22-orange-white-theme-design.md`.
 
 **Animations**: Framer Motion is used throughout. Standard pattern is `initial={{ opacity: 0, y: 30 }}` + `whileInView={{ opacity: 1, y: 0 }}` with `viewport={{ once: true }}` for scroll-triggered animations.
 
