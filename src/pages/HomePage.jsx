@@ -34,7 +34,7 @@ const HomePage = () => {
             backgroundImage: `url('https://images.unsplash.com/photo-1615971677499-5467cbab01c0?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80')`
           }}
         />
-        <div className="absolute inset-0 bg-surface-dark/60" />
+        <div className="absolute inset-0 bg-gradient-to-b from-surface-dark/60 via-accent/10 to-surface-dark/80" />
 
         <div className="relative z-10 flex items-center h-full min-h-[calc(100vh+5rem)] pt-40 px-6 lg:px-8">
           <div className="max-w-7xl mx-auto w-full">
@@ -116,7 +116,7 @@ const HomePage = () => {
           >
             <div>
               <p className="label-text mb-4">Our Collections</p>
-              <h2 className="font-display text-4xl sm:text-5xl lg:text-6xl font-bold text-surface-dark leading-[1.05]">
+              <h2 className="font-display text-4xl sm:text-5xl lg:text-6xl font-bold text-accent leading-[1.05]">
                 Explore the<br />Finest Materials
               </h2>
             </div>
@@ -178,7 +178,7 @@ const HomePage = () => {
       </div>
 
       {/* CTA Section */}
-      <section className="py-32 px-6 lg:px-8 bg-surface">
+      <section className="py-32 px-6 lg:px-8 bg-accent-veil">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <motion.div
@@ -188,9 +188,9 @@ const HomePage = () => {
               viewport={{ once: true }}
             >
               <p className="label-text mb-4">Book a Consultation</p>
-              <h2 className="font-display text-4xl sm:text-5xl font-bold text-surface-dark leading-[1.05] mb-6">
+              <h2 className="font-display text-4xl sm:text-5xl font-bold text-accent leading-[1.05] mb-6">
                 Ready to Transform{' '}
-                <span className="italic font-normal">Your Space?</span>
+                <span className="italic font-normal text-accent-warm">Your Space?</span>
               </h2>
               <p className="font-body text-base text-stone-500 leading-relaxed mb-10 max-w-lg">
                 Schedule a consultation with our design experts and discover how
@@ -213,7 +213,7 @@ const HomePage = () => {
               viewport={{ once: true }}
               className="border border-stone-200 p-10"
             >
-              <h3 className="font-display text-2xl font-bold text-surface-dark mb-8">
+              <h3 className="font-display text-2xl font-bold text-accent mb-8">
                 Contact Information
               </h3>
               <div className="space-y-6">
