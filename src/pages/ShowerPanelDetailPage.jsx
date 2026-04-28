@@ -1,51 +1,32 @@
+// Currently SHADOWED: the /shower-panels/:id route in App.jsx renders <ComingSoonPage category="Shower Panels" /> instead of this component.
+// This file is intentionally preserved so the detail page can be restored by editing App.jsx — no need to rebuild it.
+// To restore: in App.jsx, swap the /shower-panels/:id Route element back to <ShowerPanelDetailPage />.
 import React, { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import * as FiIcons from 'react-icons/fi';
 import SafeIcon from '../common/SafeIcon';
 
-const { FiArrowLeft, FiDownload, FiHeart, FiShare2, FiCheck } = FiIcons;
+const { FiArrowLeft } = FiIcons;
 
 const ShowerPanelDetailPage = () => {
   const { id } = useParams();
   const [activeImage, setActiveImage] = useState(0);
-  const [isSaved, setIsSaved] = useState(false);
 
   const panel = {
     id: parseInt(id),
     name: 'Calacatta Marble Panel',
     material: 'Marble',
-    color: 'White',
     finish: 'Polished',
     size: '60" × 120"',
-    price: '$120/sq ft',
-    priceRange: '$110-135',
-    description: 'Book-matched Calacatta marble in a single seamless panel, engineered for shower walls and wet rooms. Eliminates grout lines and creates a continuous veining pattern across the entire installation.',
-    longDescription: 'Cut from the finest Carrara quarries, our Calacatta shower panels arrive as matched pairs that can be installed side-by-side for a mirrored, book-matched effect. Large-format sizing (up to 60" × 120") means a typical shower needs just 3 panels for complete coverage — dramatically reducing grout joints and install time compared to traditional tile.',
     applications: ['Shower walls', 'Tub surrounds', 'Wet rooms', 'Feature walls', 'Bath niches'],
-    specifications: {
-      thickness: '6mm / 10mm',
-      substrate: 'Porcelain-backed marble',
-      waterAbsorption: '< 0.5%',
-      edgeTreatment: 'Mitered',
-      installSystem: 'Adhesive + trim',
-      fireRating: 'Class A'
-    },
-    care: [
-      'Seal perimeter silicone annually',
-      'Clean with pH-neutral stone cleaner',
-      'Wipe water spots after each use to preserve shine',
-      'Avoid acidic cleaners and abrasive pads',
-      'Check seam integrity during annual maintenance'
-    ],
     gallery: [
       'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
       'https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
       'https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
       'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80'
     ],
-    featured: true,
-    inStock: true
+    featured: true
   };
 
   return (
@@ -115,48 +96,28 @@ const ShowerPanelDetailPage = () => {
                 <span className="border border-stone-300 text-stone-700 px-3 py-1 font-body text-[10px] font-semibold uppercase tracking-widest">
                   {panel.material}
                 </span>
-                {panel.inStock && (
-                  <span className="border border-green-300 text-green-700 px-3 py-1 font-body text-[10px] font-semibold uppercase tracking-widest flex items-center gap-1">
-                    <SafeIcon icon={FiCheck} className="text-xs" />
-                    In Stock
-                  </span>
-                )}
               </div>
 
-              {/* Title & Price */}
+              {/* Title */}
               <div>
-                {/* Product name stays ink — price below is the orange moment; making both terracotta flattens hierarchy. */}
+                {/* Product name stays ink — orange would compete with the product photography. */}
                 <h1 className="font-display text-4xl sm:text-5xl font-bold text-surface-dark leading-tight">
                   {panel.name}
                 </h1>
-                <div className="flex items-baseline gap-4 mt-4">
-                  <span className="font-display text-4xl font-bold text-accent">
-                    {panel.price}
-                  </span>
-                  <span className="font-body text-sm text-stone-400">
-                    Range: {panel.priceRange}
-                  </span>
-                </div>
-              </div>
-
-              <div className="h-px bg-stone-200" />
-
-              {/* Description */}
-              <div>
-                <p className="font-body text-base text-stone-600 leading-relaxed mb-4">
-                  {panel.description}
+                {/* "Pricing on request" replaces the former price block — single quiet terracotta line keeps the H1 supported without competing with photography. */}
+                <p className="mt-4 font-body text-xs font-semibold uppercase tracking-widest text-accent">
+                  Pricing on Request
                 </p>
-                <p className="font-body text-sm text-stone-500 leading-relaxed">
-                  {panel.longDescription}
+                <p className="mt-2 font-body text-sm text-stone-500">
+                  Contact us for a personalized quote.
                 </p>
               </div>
 
               {/* Quick Specs */}
-              <div className="grid grid-cols-2 gap-6 border border-stone-200 p-6">
+              <div className="grid grid-cols-3 gap-6 border border-stone-200 p-6">
                 {[
                   { label: 'Panel Size', value: panel.size },
                   { label: 'Finish', value: panel.finish },
-                  { label: 'Color', value: panel.color },
                   { label: 'Material', value: panel.material }
                 ].map((spec) => (
                   <div key={spec.label}>
@@ -166,82 +127,26 @@ const ShowerPanelDetailPage = () => {
                 ))}
               </div>
 
-              {/* Actions */}
-              <div className="flex gap-3">
-                <button className="flex-1 btn-primary flex items-center justify-center gap-3">
-                  <SafeIcon icon={FiDownload} />
-                  Download Product Sheet
-                </button>
-                <button
-                  onClick={() => setIsSaved(!isSaved)}
-                  className={`w-12 h-12 border flex items-center justify-center transition-all duration-200 cursor-pointer ${
-                    isSaved ? 'bg-red-50 border-red-200 text-red-500' : 'border-stone-200 text-stone-400 hover:border-stone-400'
-                  }`}
-                >
-                  <SafeIcon icon={FiHeart} className={isSaved ? 'fill-current' : ''} />
-                </button>
-                <button className="w-12 h-12 border border-stone-200 text-stone-400 hover:border-stone-400 flex items-center justify-center transition-colors duration-200 cursor-pointer">
-                  <SafeIcon icon={FiShare2} />
-                </button>
-              </div>
             </motion.div>
           </div>
 
-          {/* Detailed Info */}
-          <div className="mt-24 grid grid-cols-1 lg:grid-cols-3 gap-12">
-            {/* Applications */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.3 }}
-            >
-              <h3 className="font-display text-2xl font-bold text-accent mb-6">Applications</h3>
-              <div className="space-y-2">
-                {panel.applications.map((application) => (
-                  <div key={application} className="flex items-center gap-3 py-3 border-b border-stone-100">
-                    <span className="w-1.5 h-1.5 bg-accent flex-shrink-0" />
-                    <span className="font-body text-sm text-stone-700">{application}</span>
-                  </div>
-                ))}
-              </div>
-            </motion.div>
-
-            {/* Specifications */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.4 }}
-            >
-              <h3 className="font-display text-2xl font-bold text-accent mb-6">Technical Specifications</h3>
-              <div className="space-y-0">
-                {Object.entries(panel.specifications).map(([key, value]) => (
-                  <div key={key} className="flex justify-between py-3 border-b border-stone-100">
-                    <span className="font-body text-sm text-stone-500 capitalize">
-                      {key.replace(/([A-Z])/g, ' $1').trim()}
-                    </span>
-                    <span className="font-body text-sm font-medium text-surface-dark">{value}</span>
-                  </div>
-                ))}
-              </div>
-            </motion.div>
-
-            {/* Care */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.5 }}
-            >
-              <h3 className="font-display text-2xl font-bold text-accent mb-6">Care & Maintenance</h3>
-              <div className="space-y-3">
-                {panel.care.map((instruction, index) => (
-                  <div key={index} className="flex items-start gap-3">
-                    <SafeIcon icon={FiCheck} className="text-accent mt-0.5 flex-shrink-0 text-sm" />
-                    <span className="font-body text-sm text-stone-600 leading-relaxed">{instruction}</span>
-                  </div>
-                ))}
-              </div>
-            </motion.div>
-          </div>
+          {/* Applications — single centered block now that Tech Specs / Care were removed. */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.3 }}
+            className="mt-24 max-w-2xl mx-auto"
+          >
+            <h3 className="font-display text-2xl font-bold text-accent mb-6">Applications</h3>
+            <div className="space-y-2">
+              {panel.applications.map((application) => (
+                <div key={application} className="flex items-center gap-3 py-3 border-b border-stone-100">
+                  <span className="w-1.5 h-1.5 bg-accent flex-shrink-0" />
+                  <span className="font-body text-sm text-stone-700">{application}</span>
+                </div>
+              ))}
+            </div>
+          </motion.div>
         </div>
       </section>
 

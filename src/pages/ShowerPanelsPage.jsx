@@ -1,3 +1,6 @@
+// Currently SHADOWED: the /shower-panels route in App.jsx renders <ComingSoonPage category="Shower Panels" /> instead of this component.
+// This file is intentionally preserved so the listing can be restored by editing App.jsx — no need to rebuild it.
+// To restore: in App.jsx, swap the /shower-panels Route element back to <ShowerPanelsPage />.
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -24,7 +27,6 @@ const ShowerPanelsPage = () => {
       color: 'White',
       size: '5x10',
       finish: 'Polished',
-      price: '$120/sq ft',
       image: 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
       description: 'Book-matched Calacatta marble in a single seamless panel, transforming the shower into a statement wall.',
       characteristics: ['Book-matched veining', 'Seamless install', 'Grout-free'],
@@ -38,7 +40,6 @@ const ShowerPanelsPage = () => {
       color: 'White',
       size: '5x10',
       finish: 'Matte',
-      price: '$55/sq ft',
       image: 'https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
       description: 'Large-format porcelain with Statuario-inspired veining, offering marble looks at a fraction of the maintenance.',
       characteristics: ['Near-zero absorption', 'Stain resistant', 'Low maintenance'],
@@ -51,7 +52,6 @@ const ShowerPanelsPage = () => {
       color: 'Brown',
       size: '4x8',
       finish: 'Matte',
-      price: '$45/sq ft',
       image: 'https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
       description: 'Warm walnut-grain laminate for a spa-like shower, engineered for daily water exposure.',
       characteristics: ['Waterproof core', 'Warm tones', 'Budget-friendly'],
@@ -64,7 +64,6 @@ const ShowerPanelsPage = () => {
       color: 'White',
       size: 'Custom',
       finish: 'Polished',
-      price: '$85/sq ft',
       image: 'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
       description: 'Engineered quartz panel fabricated to your exact shower dimensions, with Carrara-style veining throughout.',
       characteristics: ['Custom sizing', 'Non-porous', 'Consistent pattern'],
@@ -245,8 +244,9 @@ const ShowerPanelsPage = () => {
                                 </span>
                               </div>
                             </div>
-                            <span className="font-display text-2xl font-bold text-accent">
-                              {panel.price}
+                            {/* "By Inquiry" replaces the former price — quiet eyebrow keeps the card photography as hero. */}
+                            <span className="font-body text-[10px] font-semibold uppercase tracking-widest text-stone-500 mt-2">
+                              By Inquiry
                             </span>
                           </div>
 

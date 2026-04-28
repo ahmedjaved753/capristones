@@ -24,7 +24,6 @@ const QuartzPage = () => {
       color: 'White',
       pattern: 'Solid',
       finish: 'Polished',
-      price: '$65/sq ft',
       thickness: '2cm, 3cm',
       image: 'https://images.unsplash.com/photo-1615971677499-5467cbab01c0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
       description: 'Pure white quartz with subtle sparkle, perfect for modern minimalist designs.',
@@ -40,7 +39,6 @@ const QuartzPage = () => {
       color: 'Black',
       pattern: 'Solid',
       finish: 'Polished',
-      price: '$85/sq ft',
       thickness: '3cm',
       image: 'https://images.unsplash.com/photo-1565538810643-b5bdb714032a?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
       description: 'Deep black quartz with subtle shimmer for dramatic contemporary spaces.',
@@ -55,7 +53,6 @@ const QuartzPage = () => {
       color: 'Gray',
       pattern: 'Solid',
       finish: 'Matte',
-      price: '$58/sq ft',
       thickness: '2cm, 3cm',
       image: 'https://images.unsplash.com/photo-1631889993959-41b4e9c6e3c5?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
       description: 'Industrial-inspired gray quartz with concrete-like appearance for modern spaces.',
@@ -70,7 +67,6 @@ const QuartzPage = () => {
       color: 'Brown',
       pattern: 'Solid',
       finish: 'Honed',
-      price: '$75/sq ft',
       thickness: '3cm',
       image: 'https://images.unsplash.com/photo-1600585152915-d208bec867a1?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
       description: 'Rich brown quartz with warm undertones, perfect for cozy traditional spaces.',
@@ -260,8 +256,9 @@ const QuartzPage = () => {
                                 </div>
                               </div>
                             </div>
-                            <span className="font-display text-2xl font-bold text-accent">
-                              {product.price}
+                            {/* "By Inquiry" replaces the former price — quiet eyebrow keeps the card photography as hero. */}
+                            <span className="font-body text-[10px] font-semibold uppercase tracking-widest text-stone-500 mt-2">
+                              By Inquiry
                             </span>
                           </div>
 

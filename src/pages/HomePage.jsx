@@ -194,7 +194,7 @@ const HomePage = () => {
                 <span className="italic font-normal text-accent-warm">Your Space?</span>
               </h2>
               <p className="font-body text-base text-stone-500 leading-relaxed mb-10 max-w-lg">
-                Schedule a consultation with our design experts and discover how
+                Schedule a consultation with our stone experts and discover how
                 premium materials can bring your vision to life.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">

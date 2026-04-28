@@ -65,12 +65,11 @@ const Navigation = () => {
         <div className="flex justify-between items-center h-20">
           <Link to="/">
             <div className="flex items-center gap-3">
-              <span className="font-display text-2xl font-bold tracking-tight text-surface-dark">
-                PREMIUM
-              </span>
+              {/* "Capri Stone" text beside it announces the brand to screen readers — image stays decorative. */}
+              <img src="/logo.png" alt="" aria-hidden="true" className="h-10 w-auto" />
               <span className="w-px h-6 bg-stone-300" />
               <span className="font-body text-[10px] font-semibold uppercase tracking-widest-plus text-stone-500">
-                Stones
+                Capri Stone
               </span>
             </div>
           </Link>

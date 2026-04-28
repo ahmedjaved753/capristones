@@ -12,8 +12,7 @@ const NaturalStonePage = () => {
   const [filters, setFilters] = useState({
     type: 'All',
     color: 'All',
-    finish: 'All',
-    origin: 'All'
+    finish: 'All'
   });
 
   const naturalStones = [
@@ -23,8 +22,7 @@ const NaturalStonePage = () => {
       type: 'Marble',
       color: 'White',
       finish: 'Polished',
-      origin: 'Italy',
-      price: '$89/sq ft',
+      origin: 'Brazil',
       image: 'https://images.unsplash.com/photo-1615971677499-5467cbab01c0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
       description: 'The epitome of luxury, prized for centuries for its pure white background and subtle gray veining.',
       characteristics: ['Elegant veining', 'Timeless appeal', 'Versatile applications'],
@@ -37,8 +35,7 @@ const NaturalStonePage = () => {
       type: 'Granite',
       color: 'Black',
       finish: 'Polished',
-      origin: 'India',
-      price: '$65/sq ft',
+      origin: 'Brazil',
       image: 'https://images.unsplash.com/photo-1565538810643-b5bdb714032a?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
       description: 'Pure black granite with no patterns, offering a sleek modern aesthetic for contemporary designs.',
       characteristics: ['Uniform color', 'High durability', 'Heat resistant'],
@@ -50,8 +47,7 @@ const NaturalStonePage = () => {
       type: 'Travertine',
       color: 'Beige',
       finish: 'Tumbled',
-      origin: 'Italy',
-      price: '$45/sq ft',
+      origin: 'Brazil',
       image: 'https://images.unsplash.com/photo-1631889993959-41b4e9c6e3c5?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
       description: 'Classic Roman travertine with warm beige tones and natural pitting that creates authentic Old World charm.',
       characteristics: ['Natural texture', 'Warm tones', 'Historical significance'],
@@ -63,8 +59,7 @@ const NaturalStonePage = () => {
       type: 'Marble',
       color: 'Brown',
       finish: 'Honed',
-      origin: 'Spain',
-      price: '$95/sq ft',
+      origin: 'Brazil',
       image: 'https://images.unsplash.com/photo-1600585152915-d208bec867a1?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
       description: 'Rich chocolate brown marble with dramatic white and gold veining for warm, luxurious spaces.',
       characteristics: ['Rich brown color', 'Dramatic veining', 'Warm undertones'],
@@ -75,8 +70,7 @@ const NaturalStonePage = () => {
   const filterOptions = {
     type: ['All', 'Marble', 'Granite', 'Travertine', 'Limestone', 'Slate'],
     color: ['All', 'White', 'Black', 'Brown', 'Beige', 'Cream', 'Gray'],
-    finish: ['All', 'Polished', 'Honed', 'Tumbled', 'Natural'],
-    origin: ['All', 'Italy', 'India', 'Spain', 'Israel', 'Wales']
+    finish: ['All', 'Polished', 'Honed', 'Tumbled', 'Natural']
   };
 
   const filteredStones = naturalStones.filter(stone => {
@@ -85,8 +79,7 @@ const NaturalStonePage = () => {
     const matchesType = filters.type === 'All' || stone.type === filters.type;
     const matchesColor = filters.color === 'All' || stone.color === filters.color;
     const matchesFinish = filters.finish === 'All' || stone.finish === filters.finish;
-    const matchesOrigin = filters.origin === 'All' || stone.origin === filters.origin;
-    return matchesSearch && matchesType && matchesColor && matchesFinish && matchesOrigin;
+    return matchesSearch && matchesType && matchesColor && matchesFinish;
   });
 
   const handleFilterChange = (filterType, value) => {
@@ -148,7 +141,7 @@ const NaturalStonePage = () => {
                   className="px-4 py-2 border border-stone-200 font-body text-xs uppercase tracking-wider focus:outline-none focus:border-surface-dark bg-white cursor-pointer"
                 >
                   {options.map(option => (
-                    <option key={option} value={option}>{filterType === 'type' && option === 'All' ? 'All Types' : filterType === 'color' && option === 'All' ? 'All Colors' : filterType === 'finish' && option === 'All' ? 'All Finishes' : filterType === 'origin' && option === 'All' ? 'All Origins' : option}</option>
+                    <option key={option} value={option}>{filterType === 'type' && option === 'All' ? 'All Types' : filterType === 'color' && option === 'All' ? 'All Colors' : filterType === 'finish' && option === 'All' ? 'All Finishes' : option}</option>
                   ))}
                 </select>
               ))}
@@ -245,8 +238,9 @@ const NaturalStonePage = () => {
                                 </span>
                               </div>
                             </div>
-                            <span className="font-display text-2xl font-bold text-accent">
-                              {stone.price}
+                            {/* "By Inquiry" replaces the former price — quiet eyebrow keeps the card photography as hero. */}
+                            <span className="font-body text-[10px] font-semibold uppercase tracking-widest text-stone-500 mt-2">
+                              By Inquiry
                             </span>
                           </div>
 
@@ -286,7 +280,7 @@ const NaturalStonePage = () => {
               <p className="font-body text-sm text-stone-500 mb-8">Try adjusting your filters or search terms</p>
               <button
                 onClick={() => {
-                  setFilters({ type: 'All', color: 'All', finish: 'All', origin: 'All' });
+                  setFilters({ type: 'All', color: 'All', finish: 'All' });
                   setSearchQuery('');
                 }}
                 className="btn-primary"

@@ -2,16 +2,67 @@
 
 Living status document for the Premium Stones website. Reverse-chronological revision log below. Each entry links to the spec, plan, and changelog for that revision round — those are the source of truth; this file is just the index.
 
-## Current state (as of 2026-04-22)
+## Current state (as of 2026-04-28)
 
-- **Pages live:** Home, Natural Stone listing + detail, Quartz listing + detail, Shower Panels listing + detail, Cabinets listing + detail, Appointments, Contact. (8 pages total, up from 6.)
+- **Pages live:** Home, Natural Stone listing + detail, Quartz listing + detail, Appointments, Contact. (6 of 8 collections rendering real content.)
+- **Pages shadowed by Coming Soon:** Cabinets and Shower Panels (listing + detail) — see the 2026-04-28 shadowing entry below. The original components are preserved on disk; routes can be restored with a 1-line edit per route in `src/App.jsx`.
 - **Palette:** terracotta `#B8431E` + warm sienna `#E07A3C` + peach-cream veil `#FBEBDD` on near-white `#FAFAF9` / near-black `#1C1917`. See `CLAUDE.md` "Palette" section.
 - **Typography:** Cormorant serif (display) + Montserrat sans (body). Unchanged since editorial revamp.
-- **Data:** All product data is mocked in-component. Supabase is installed but not wired up.
+- **Pricing & sourcing:** Pricing is **not displayed** anywhere on the site. Listing cards show a "BY INQUIRY" eyebrow; detail pages show a "PRICING ON REQUEST" line. Every Natural Stone product is sourced from **Brazil** (single-origin); the origin filter has been removed since variance is zero.
+- **Data:** All product data is mocked in-component. Supabase client is wired up (`src/lib/supabase.js`) using publishable-key auth via Vite env vars; no tables are read yet, but the client is ready for the first data integration.
 - **Testing:** Playwright visual regression covers 10 routes — 20 baseline screenshots in `tests/visual.spec.js-snapshots/`. Run `npm run test:visual` before committing any user-facing change.
 - **Open items:** none currently tracked. If client feedback arrives, new revision rounds get their own spec + plan + changelog entry and append to the log below.
 
 ## Revision log
+
+### 2026-04-28 — Brand logo added to nav, footer, and favicon
+
+Client supplied a "C" monogram logo (terracotta+warm-sienna gradient — coincidentally already the brand palette). Placed at `public/logo.png` (renamed from `Logo No Background Just C.png` to drop spaces from the filename). Wired into the brand lockup in `Navigation.jsx` (40px high, left of the `PREMIUM | Stones` wordmark) and into the footer brand column in `Footer.jsx` (64px high, above the `Premium Stones` heading). Also set as favicon in `index.html`. Both placements use `alt="" aria-hidden="true"` since the wordmark/heading next to the icon already announces the brand to screen readers. 19 visual baselines regenerated to reflect the new lockup (nav on every page; footer on the routes that scroll deep enough to capture it).
+
+Note on brand: the logo "C" suggests "Capri Stones", which matches the contact-info round's `@capristones.com` email domain — but the visible site brand everywhere is still "Premium Stones". Resolving that inconsistency (rename or keep) is a separate decision the client hasn't given direction on yet.
+
+### 2026-04-28 — Detail-page Actions row + Tech Specs + Care removal
+
+Stripped the Download Product Sheet / Save / Share button row from each detail page (none of the buttons did anything functional — placeholders from the original scaffold). Also removed the Technical Specifications and Care & Maintenance sections; their data was placeholder filler, not real product spec data, and showing made-up numbers on a showroom site does more harm than good. The orphaned Applications section (which used to share a 3-column grid with the two removed sections) was re-styled as a single centered `max-w-2xl` block so it reads as intentional rather than orphaned. Mock fields `specifications` and `care` removed; icon imports `FiDownload`, `FiHeart`, `FiShare2`, `FiCheck` removed; `isSaved` state removed. CSS bundle dropped ~0.5 kB. 2 visual baselines regenerated for the natural-stone detail route.
+
+- **Spec:** [`docs/superpowers/specs/2026-04-28-detail-page-actions-and-detail-sections-removal-design.md`](docs/superpowers/specs/2026-04-28-detail-page-actions-and-detail-sections-removal-design.md)
+- **Plan:** [`docs/superpowers/plans/2026-04-28-detail-page-actions-and-detail-sections-removal.md`](docs/superpowers/plans/2026-04-28-detail-page-actions-and-detail-sections-removal.md)
+- **Client changelog:** [`docs/changelog/2026-04-28-detail-page-actions-and-detail-sections-removal.md`](docs/changelog/2026-04-28-detail-page-actions-and-detail-sections-removal.md)
+- **Restore recipe:** [`docs/HOW-TO-REVISE.md`](docs/HOW-TO-REVISE.md) Recipe 14
+
+### 2026-04-28 — Detail-page content pruning (In Stock badge, description, Color)
+
+Stripped three elements from each detail page: the green "✓ In Stock" badge in the top chip row, the two-paragraph description block (along with the divider above it), and the Color field from the Quick Specs grid. Quick Specs grid switched from 2-col to 3-col so the remaining 3 fields (Origin/Finish/Material — or category equivalents) sit cleanly in one row. Mock data fields `inStock`, `description`, `longDescription`, `color` removed from each detail-page mock since nothing consumes them anymore. Listing-page cards are unchanged. 2 visual baselines regenerated for the natural-stone detail route; cabinet/shower-panel detail baselines stayed unchanged because those routes are currently shadowed by Coming Soon — the component edits are in place for when the routes are restored.
+
+- **Spec:** [`docs/superpowers/specs/2026-04-28-detail-page-content-pruning-design.md`](docs/superpowers/specs/2026-04-28-detail-page-content-pruning-design.md)
+- **Plan:** [`docs/superpowers/plans/2026-04-28-detail-page-content-pruning.md`](docs/superpowers/plans/2026-04-28-detail-page-content-pruning.md)
+- **Client changelog:** [`docs/changelog/2026-04-28-detail-page-content-pruning.md`](docs/changelog/2026-04-28-detail-page-content-pruning.md)
+- **Restore recipe:** [`docs/HOW-TO-REVISE.md`](docs/HOW-TO-REVISE.md) Recipe 13
+
+### 2026-04-28 — Cabinets and Shower Panels shadowed by Coming Soon
+
+Added a new shared `ComingSoonPage` component and routed `/cabinets`, `/cabinets/:id`, `/shower-panels`, `/shower-panels/:id` through it. Original page components (`CabinetsPage`, `CabinetDetailPage`, `ShowerPanelsPage`, `ShowerPanelDetailPage`) are preserved on disk with a header comment in each pointing at the route swap. Restoring is a 1-line edit per route in `src/App.jsx`. Coming Soon page reuses the existing peach-cream wash and the two-word terracotta+sienna H1 pattern so it reads as part of the editorial family rather than a 404. 8 visual-regression baselines regenerated; 12 still pass pixel-for-pixel.
+
+- **Spec:** [`docs/superpowers/specs/2026-04-28-coming-soon-shadowing-design.md`](docs/superpowers/specs/2026-04-28-coming-soon-shadowing-design.md)
+- **Plan:** [`docs/superpowers/plans/2026-04-28-coming-soon-shadowing.md`](docs/superpowers/plans/2026-04-28-coming-soon-shadowing.md)
+- **Client changelog:** [`docs/changelog/2026-04-28-coming-soon-shadowing.md`](docs/changelog/2026-04-28-coming-soon-shadowing.md)
+- **Restore recipe:** [`docs/HOW-TO-REVISE.md`](docs/HOW-TO-REVISE.md) Recipe 12
+
+### 2026-04-28 — Pricing removed, all stone origins set to Brazil
+
+Removed the price field from every product card and detail page across all four collections (Natural Stone, Quartz, Shower Panels, Cabinets). Replaced with a quiet "BY INQUIRY" eyebrow on cards and a refined "PRICING ON REQUEST" + supporting line on detail pages, signalling consultation-driven sales. At the same time, set every Natural Stone product's origin to "Brazil" and removed the now-meaningless origin filter dropdown. Detail-page prose updated so it no longer references Italy / Carrara as a literal source. 10 visual-regression baselines regenerated; the other 10 still pass pixel-for-pixel.
+
+- **Spec:** [`docs/superpowers/specs/2026-04-28-pricing-removal-and-brazil-origin-design.md`](docs/superpowers/specs/2026-04-28-pricing-removal-and-brazil-origin-design.md)
+- **Plan:** [`docs/superpowers/plans/2026-04-28-pricing-removal-and-brazil-origin.md`](docs/superpowers/plans/2026-04-28-pricing-removal-and-brazil-origin.md)
+- **Client changelog (with before/after visuals):** [`docs/changelog/2026-04-28-pricing-removal-brazil-origin.md`](docs/changelog/2026-04-28-pricing-removal-brazil-origin.md)
+- **Revision playbook:** new recipes added to [`docs/HOW-TO-REVISE.md`](docs/HOW-TO-REVISE.md) — "re-introduce pricing" and "change the single-origin sourcing story"
+
+### 2026-04-28 — Supabase client wired up
+
+Connected the Supabase JS client that was installed but unused. Added `src/lib/supabase.js` (shared `createClient` instance reading `VITE_SUPABASE_URL` / `VITE_SUPABASE_PUBLISHABLE_KEY`), `.env.local` for the credentials (gitignored), and `.env.example` as a template. No UI changes — the module is not yet imported anywhere; this is foundational plumbing so a future revision round can replace mocked product data with real queries. Followed the latest publishable-key pattern from Supabase docs (verified via context7).
+
+- **Files:** `src/lib/supabase.js`, `.env.local` (untracked), `.env.example`
+- **No spec/plan/changelog:** infrastructure-only, no client-visible change yet. The first revision that actually reads from Supabase will get the full doc set.
 
 ### 2026-04-22 — Shower Panels and Cabinets categories
 

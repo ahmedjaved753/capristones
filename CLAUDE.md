@@ -59,24 +59,25 @@ For every meaningful change (features, CSS edits, palette tweaks, scope changes 
 - **If you skip a step, say why in the commit message.** E.g., "Skipped CLAUDE.md update — no architectural change, just a minor copy edit on contact page." Keeps the workflow honest without blocking trivial edits.
 - **Doc rot warning signs to watch for on every session start:** the palette section in CLAUDE.md refers to colors not in `tailwind.config.js`; `PROGRESS.md` "Current state" describes something the code doesn't do; a HOW-TO-REVISE recipe references a line number that no longer matches. If you spot any, fix it as part of whatever else you're doing.
 
-## Project Scope (updated 2026-04-22)
+## Project Scope (updated 2026-04-28)
 
 Client-confirmed scope for the Premium Stones website. Design direction: sharp, structured, sophisticated, high-end.
 
 **In-scope pages:**
 - **Home** (`/`) — hero with premium visuals, headline + CTAs; featured product categories preview (Natural Stone, Quartz only — the dropdown surfaces the full set); quick links to appointments and contact.
-- **Natural Stone listing** (`/natural-stone`) — grid/gallery view with filtering (type, color, finish, origin) and search.
+- **Natural Stone listing** (`/natural-stone`) — grid/gallery view with filtering (type, color, finish) and search. (Origin filter was removed on 2026-04-28; all stone is sourced from Brazil.)
 - **Quartz listing** (`/quartz`) — same pattern as Natural Stone.
-- **Shower Panels listing** (`/shower-panels`) — filters on material, color, size, finish.
-- **Cabinets listing** (`/cabinets`) — filters on style, wood, color, door type.
+- **Shower Panels listing** (`/shower-panels`) — **CURRENTLY SHADOWED** by `ComingSoonPage`. Filters on material, color, size, finish exist in the preserved `ShowerPanelsPage` component but aren't reachable until the route is restored.
+- **Cabinets listing** (`/cabinets`) — **CURRENTLY SHADOWED** by `ComingSoonPage`. Filters on style, wood, color, door type exist in the preserved `CabinetsPage` component.
 - **Product detail pages:**
   - `/natural-stone/:id` and `/quartz/:id` share `ProductDetailPage` (stone-centric specs).
-  - `/shower-panels/:id` uses dedicated `ShowerPanelDetailPage` (panel-centric specs: thickness, substrate, edge treatment, etc.).
-  - `/cabinets/:id` uses dedicated `CabinetDetailPage` (cabinet-centric specs: box construction, door style, hardware, etc.).
+  - `/shower-panels/:id` uses dedicated `ShowerPanelDetailPage` (panel-centric specs: thickness, substrate, edge treatment, etc.) — **currently shadowed**.
+  - `/cabinets/:id` uses dedicated `CabinetDetailPage` (cabinet-centric specs: box construction, door style, hardware, etc.) — **currently shadowed**.
 - **Appointments / Booking** (`/appointments`) — structured in-page booking form. No floating widgets.
 - **Contact** (`/contact`) — phone, email, address, business hours.
+- **Coming Soon** — `ComingSoonPage.jsx` renders for the four shadowed routes above. Single shared component, parameterized by `category` prop. See `docs/superpowers/specs/2026-04-28-coming-soon-shadowing-design.md` for rationale and `docs/HOW-TO-REVISE.md` Recipe 12 for the restore procedure.
 
-History: Slabs, Tiles, Cabinets, Resources, Portfolio, and Catalog were removed on 2026-04-16. On 2026-04-22 the client reinstated Cabinets and added Shower Panels as a net-new category; the other removals remain out of scope.
+History: Slabs, Tiles, Cabinets, Resources, Portfolio, and Catalog were removed on 2026-04-16. On 2026-04-22 the client reinstated Cabinets and added Shower Panels as a net-new category. On 2026-04-28 both Cabinets and Shower Panels were temporarily shadowed by Coming Soon (collections not ready); the components remain in the repo for restoration. Slabs/Tiles/Resources/Portfolio/Catalog remain fully out of scope.
 
 ## Architecture
 
@@ -85,22 +86,27 @@ Single-page React app for a premium natural stone & quartz showroom. Uses `HashR
 **Routing pattern** (`src/App.jsx`): Each product category has a listing page plus a detail page sharing `ProductDetailPage`:
 - `/natural-stone`, `/quartz` → category listing
 - `/natural-stone/:id`, `/quartz/:id` → `ProductDetailPage` (uses `useLocation` to infer the category for back-nav)
+- `/shower-panels`, `/shower-panels/:id`, `/cabinets`, `/cabinets/:id` → currently routed to `<ComingSoonPage category="..." />`. The original page imports (`ShowerPanelsPage`, `ShowerPanelDetailPage`, `CabinetsPage`, `CabinetDetailPage`) are kept warm in `App.jsx` so restoring is a 1-line `element=` swap per route. Each shadowed page file has a header comment pointing at this arrangement.
 
 **Pages vs Components**: `src/pages/` are route-level containers; `src/components/` are reusable UI pieces composed inside pages. Some route files wrap same-named components (e.g., `pages/AppointmentsPage.jsx` is a thin shell that imports `components/AppointmentsPage.jsx`; `pages/ContactPage.jsx` wraps `components/ContactSection.jsx`).
 
 **Detail pages — three peers, not one shared:** `ProductDetailPage.jsx` serves both Natural Stone and Quartz (it dispatches between them via `useLocation`). Shower Panels and Cabinets each have their own dedicated detail page (`ShowerPanelDetailPage.jsx`, `CabinetDetailPage.jsx`) because their specifications don't map onto stone vocabulary (panels have substrate / water absorption / install system; cabinets have box construction / door style / hardware). The three detail pages share ~80% of their structure; consolidating them with a fourth category would be a useful refactor, but with three categories the duplication is still cheaper than the abstraction.
+
+**Detail-page content rules** (updated 2026-04-28): every detail page renders Title block (H1 + "Pricing on Request") → Quick Specs (3-column bordered card) → centered Applications block (`max-w-2xl mx-auto`) → existing "Ready to Use This Material?" CTA section. The In Stock badge, marketing description, and Color spec were removed in the content-pruning round; the Action row (Download Product Sheet / Save / Share), Technical Specifications, and Care & Maintenance sections were removed in the actions-and-detail-sections-removal round. Mock fields stripped on each detail page: `inStock`, `description`, `longDescription`, `color`, `specifications`, `care`. Icon imports stripped: `FiDownload`, `FiHeart`, `FiShare2`, `FiCheck`. `isSaved` state stripped. Listing-page mocks still keep their `description` field (used in card body + search). Restoring any of these: see `docs/HOW-TO-REVISE.md` Recipes 13 (descriptions/badge/Color) and 14 (Actions/Specs/Care).
 
 **`src/common/SafeIcon.jsx`**: Wrapper around `react-icons/fi` (Feather Icons). Always use this instead of importing icons directly — it falls back gracefully on missing icons. Usage: `<SafeIcon icon={FiArrowRight} />` or `<SafeIcon name="ArrowRight" />`.
 
 **Styling**: Tailwind CSS with custom animations defined in `tailwind.config.js`. Path alias `@` resolves to `src/`.
 
 **Palette** (updated 2026-04-22 — orange/white retheme): three-tier accent system anchored on near-white `surface` (`#FAFAF9`) and near-black `surface-dark` (`#1C1917`). Tokens in `tailwind.config.js`:
-- `accent` `#B8431E` (terracotta) — H1/H2/structural H3 main words, prices, bullets, nav underline, icons, badges, `hover:bg-accent` states. AA-legal on white for body-sized text.
+- `accent` `#B8431E` (terracotta) — H1/H2/structural H3 main words, the "Pricing on Request" eyebrow on detail pages, bullets, nav underline, icons, badges, `hover:bg-accent` states. AA-legal on white for body-sized text.
 - `accent-warm` `#E07A3C` (warm sienna) — decorative only: H1 italic sub-words, hero gradient mid-band, footer brand on dark. Not legible on white below ~24px.
 - `accent-veil` `#FBEBDD` (peach-cream) — section-wash backgrounds. Currently used only on home CTA section.
 
 **Heading carve-out** (important — comments in source flag this so it's not "fixed" as an inconsistency): product-name H1 on all three detail pages (`ProductDetailPage`, `ShowerPanelDetailPage`, `CabinetDetailPage`) and product-card H3s inside product-grid loops on `HomePage`/`NaturalStonePage`/`QuartzPage`/`ShowerPanelsPage`/`CabinetsPage` intentionally stay `text-surface-dark` (ink). Orange on those would compete with product photography. Full design rule: `docs/superpowers/specs/2026-04-22-orange-white-theme-design.md`.
 
+**Pricing & sourcing rules** (added 2026-04-28): pricing is not displayed anywhere on the site. Each listing card shows a `By Inquiry` eyebrow (font-body, 10px, uppercase tracking-widest, text-stone-500) where the price used to live. Each detail page shows a `Pricing on Request` line (font-body, xs, uppercase tracking-widest, text-accent) followed by `Contact us for a personalized quote.` (font-body, sm, text-stone-500) where the price block used to live — the terracotta accent there preserves the visual support under the H1. All Natural Stone products are sourced from Brazil (single-origin); the origin filter dropdown was removed since variance is zero. If the client adds a second country later, see `docs/HOW-TO-REVISE.md` Recipe 10 — "change the single-origin sourcing story". Full rationale: `docs/superpowers/specs/2026-04-28-pricing-removal-and-brazil-origin-design.md`.
+
 **Animations**: Framer Motion is used throughout. Standard pattern is `initial={{ opacity: 0, y: 30 }}` + `whileInView={{ opacity: 1, y: 0 }}` with `viewport={{ once: true }}` for scroll-triggered animations.
 
-**Data**: All product data is currently hardcoded as mock objects inside each page component. There is no API or state management layer — `@supabase/supabase-js` is installed but not yet wired up.
+**Data**: All product data is currently hardcoded as mock objects inside each page component. There is no state management layer. Supabase is wired up — `src/lib/supabase.js` exports a shared `supabase` client built from `VITE_SUPABASE_URL` / `VITE_SUPABASE_PUBLISHABLE_KEY` (see `.env.example`). The credentials live in `.env.local` (gitignored via `*.local`). No tables are read yet; the client is ready for the first data integration. Use **publishable** keys only in this Vite frontend — never the `service_role` / secret key, since `VITE_*` env vars are bundled into the browser build.

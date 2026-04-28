@@ -36,6 +36,7 @@ dist-ssr
 # Claude Code local state
 .claude/
 skills-lock.json
+.mcp.json
 
 # Playwright visual regression test artifacts (not baselines — those live under
 # tests/visual.spec.js-snapshots/ and ARE committed)

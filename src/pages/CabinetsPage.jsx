@@ -1,3 +1,6 @@
+// Currently SHADOWED: the /cabinets route in App.jsx renders <ComingSoonPage category="Cabinets" /> instead of this component.
+// This file is intentionally preserved so the listing can be restored by editing App.jsx — no need to rebuild it.
+// To restore: in App.jsx, swap the /cabinets Route element back to <CabinetsPage />.
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -24,7 +27,6 @@ const CabinetsPage = () => {
       wood: 'White Oak',
       color: 'Natural',
       doorType: 'Full Overlay',
-      price: '$420/linear ft',
       image: 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
       description: 'Classic 5-piece Shaker doors in quarter-sawn white oak, finished with a clear conversion varnish that highlights the grain.',
       characteristics: ['Quarter-sawn grain', 'Soft-close hinges', 'Dovetail drawers'],
@@ -38,7 +40,6 @@ const CabinetsPage = () => {
       wood: 'Walnut',
       color: 'Natural',
       doorType: 'Full Overlay',
-      price: '$520/linear ft',
       image: 'https://images.unsplash.com/photo-1600585152915-d208bec867a1?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
       description: 'European-style frameless construction in rift-cut walnut, optimized for maximum interior storage and a seamless modern face.',
       characteristics: ['Frameless build', 'Rift-cut grain', 'Full-access interior'],
@@ -51,7 +52,6 @@ const CabinetsPage = () => {
       wood: 'Cherry',
       color: 'Natural',
       doorType: 'Inset',
-      price: '$650/linear ft',
       image: 'https://images.unsplash.com/photo-1556909114-4f2a4b97bc7b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
       description: 'Traditional inset cabinetry in solid cherry with raised-panel doors, matched and beaded for heirloom-quality results.',
       characteristics: ['Solid cherry doors', 'Beaded face frame', 'Heirloom joinery'],
@@ -64,7 +64,6 @@ const CabinetsPage = () => {
       wood: 'Painted MDF',
       color: 'Espresso',
       doorType: 'Full Overlay',
-      price: '$380/linear ft',
       image: 'https://images.unsplash.com/photo-1631889993959-41b4e9c6e3c5?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
       description: 'Clean, flush slab doors finished in deep espresso lacquer — a contemporary look with no visible hardware when paired with push-open.',
       characteristics: ['Flush slab face', 'Hand-sprayed lacquer', 'Push-open ready'],
@@ -245,8 +244,9 @@ const CabinetsPage = () => {
                                 </span>
                               </div>
                             </div>
-                            <span className="font-display text-2xl font-bold text-accent">
-                              {cabinet.price}
+                            {/* "By Inquiry" replaces the former price — quiet eyebrow keeps the card photography as hero. */}
+                            <span className="font-body text-[10px] font-semibold uppercase tracking-widest text-stone-500 mt-2">
+                              By Inquiry
                             </span>
                           </div>
 

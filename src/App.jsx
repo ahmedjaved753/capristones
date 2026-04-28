@@ -6,10 +6,13 @@ import Footer from './components/Footer';
 import HomePage from './pages/HomePage';
 import NaturalStonePage from './pages/NaturalStonePage';
 import QuartzPage from './pages/QuartzPage';
+// Cabinets and Shower Panels are temporarily routed through ComingSoonPage (see routes below).
+// The original page components are intentionally left imported so a 1-line restore is enough.
 import ShowerPanelsPage from './pages/ShowerPanelsPage';
 import ShowerPanelDetailPage from './pages/ShowerPanelDetailPage';
 import CabinetsPage from './pages/CabinetsPage';
 import CabinetDetailPage from './pages/CabinetDetailPage';
+import ComingSoonPage from './pages/ComingSoonPage';
 import AppointmentsPage from './pages/AppointmentsPage';
 import ContactPage from './pages/ContactPage';
 import ProductDetailPage from './pages/ProductDetailPage';
@@ -28,10 +31,12 @@ function App() {
             <Route path="/natural-stone/:id" element={<ProductDetailPage />} />
             <Route path="/quartz" element={<QuartzPage />} />
             <Route path="/quartz/:id" element={<ProductDetailPage />} />
-            <Route path="/shower-panels" element={<ShowerPanelsPage />} />
-            <Route path="/shower-panels/:id" element={<ShowerPanelDetailPage />} />
-            <Route path="/cabinets" element={<CabinetsPage />} />
-            <Route path="/cabinets/:id" element={<CabinetDetailPage />} />
+            {/* Shower Panels — temporarily shadowed by ComingSoonPage. To restore: swap element={<ComingSoonPage .../>} back to element={<ShowerPanelsPage />} / element={<ShowerPanelDetailPage />}. */}
+            <Route path="/shower-panels" element={<ComingSoonPage category="Shower Panels" />} />
+            <Route path="/shower-panels/:id" element={<ComingSoonPage category="Shower Panels" />} />
+            {/* Cabinets — temporarily shadowed by ComingSoonPage. To restore: swap element={<ComingSoonPage .../>} back to element={<CabinetsPage />} / element={<CabinetDetailPage />}. */}
+            <Route path="/cabinets" element={<ComingSoonPage category="Cabinets" />} />
+            <Route path="/cabinets/:id" element={<ComingSoonPage category="Cabinets" />} />
             <Route path="/appointments" element={<AppointmentsPage />} />
             <Route path="/contact" element={<ContactPage />} />
           </Routes>

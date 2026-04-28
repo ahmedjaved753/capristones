@@ -114,7 +114,7 @@ const AppointmentsPage = () => {
             <span className="italic font-normal text-accent-warm">Appointment</span>
           </h1>
           <p className="font-body text-base text-stone-500 max-w-2xl leading-relaxed">
-            Schedule a consultation with our design experts to discuss your project
+            Schedule a consultation with our stone experts to discuss your project
             and explore our premium materials.
           </p>
         </motion.div>
@@ -302,7 +302,7 @@ const AppointmentsPage = () => {
               </h3>
               <div className="space-y-4">
                 {[
-                  'Personal consultation with design experts',
+                  'Personal consultation with stone experts',
                   'Hands-on material selection',
                   'Custom design recommendations',
                   'Detailed project timeline and pricing'
