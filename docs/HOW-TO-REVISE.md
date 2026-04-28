@@ -551,6 +551,43 @@ In each detail page:
 
 ---
 
+## Recipe 15 — Swap card / gallery imagery on a category page
+
+**When the client wants imagery on a listing or detail page changed** — e.g., "the cabinet photos look like furniture, replace them with quarry shots." The product arrays inline in each page file each carry an `image` field per product (and a `gallery` array on the detail pages); replace the URLs and the rest of the layout, filters, and card chrome adapt automatically.
+
+**File map:**
+
+- `src/pages/NaturalStonePage.jsx` → `naturalStones[].image` (4 cards)
+- `src/pages/QuartzPage.jsx` → `quartzProducts[].image` (4 cards)
+- `src/pages/ShowerPanelsPage.jsx` → `showerPanels[].image` (4 cards) **— shadowed**
+- `src/pages/CabinetsPage.jsx` → `cabinets[].image` (4 cards) **— shadowed**
+- `src/pages/ProductDetailPage.jsx` → `product.gallery` (4-image array, used by `/natural-stone/:id` and `/quartz/:id`)
+- `src/pages/ShowerPanelDetailPage.jsx` → `panel.gallery` (4-image array) **— shadowed**
+- `src/pages/CabinetDetailPage.jsx` → `cabinet.gallery` (4-image array) **— shadowed**
+- `src/pages/HomePage.jsx` → `featuredCollections[].image` (2 cards on the home collections preview); the **hero** background lives separately on the `<section style={{ backgroundImage: ... }}` JSX (line ~34) and is NOT in any array.
+
+**Where to source images:**
+
+Existing imagery is hosted on Unsplash via direct CDN URLs of the form `https://images.unsplash.com/photo-{ID}?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80`. To find new ones:
+
+1. Go to `https://unsplash.com/s/photos/<topic>` (e.g., `marble-quarry`, `granite-quarry`, `stone-quarry`).
+2. Open a photo, copy its CDN URL from the page source — the `images.unsplash.com/photo-XXX` form is the free, hot-linkable variant. Skip `plus.unsplash.com/premium_photo-XXX` URLs unless the client has a paid Unsplash subscription.
+3. Keep the query string (`?ixlib=...&w=1200&q=80`) consistent with the rest of the codebase so all images come down at the same dimensions and quality.
+
+**Steps:**
+
+1. Open the file in the map above for the page you want to change.
+2. Replace each `image:` URL (or each entry in `gallery:`) with a new Unsplash URL. Use 4 distinct photos per page so cards don't visually duplicate.
+3. If the page is **shadowed** (Cabinets, Shower Panels, their detail pages), temporarily un-shadow the route in `src/App.jsx` (see Recipe 12) for a browser preview, then revert. Visual tests won't catch image-quality regressions on shadowed routes — the routes render `ComingSoonPage` during testing.
+4. `npm run build`. The visual tests **mask all `<img>` elements** (`tests/visual.spec.js` line ~33) so swaps won't fail baselines, but `npm run test:visual` should still be run as a sanity check.
+5. The hero background-image on the home page is *not* an `<img>` and *is* visible to visual tests — if you change it, run `npm run test:visual:update` to accept the new `home-hero` baseline.
+
+**Why it's safe:** card / gallery images are pure content. The card template, filter logic, layout, and animation behaviors don't depend on the URL. Only the hero background is part of the visual baseline; everything else is masked out of the screenshot diff.
+
+**Effort:** 5-10 minutes per page, including finding photos that fit the page's aesthetic.
+
+---
+
 ## Fallback — if you want something none of these cover
 
 Describe what you want in plain language. A design spec will be written, concrete options will be proposed, you'll choose one, and it will be implemented, tested, and changelogged. The brainstorming → spec → plan → implementation workflow documented in `docs/superpowers/` is how every previous revision round on this project was handled.

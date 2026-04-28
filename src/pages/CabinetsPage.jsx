@@ -27,7 +27,7 @@ const CabinetsPage = () => {
       wood: 'White Oak',
       color: 'Natural',
       doorType: 'Full Overlay',
-      image: 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
+      image: 'https://images.unsplash.com/photo-1667841712928-6372a8bb1f3f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
       description: 'Classic 5-piece Shaker doors in quarter-sawn white oak, finished with a clear conversion varnish that highlights the grain.',
       characteristics: ['Quarter-sawn grain', 'Soft-close hinges', 'Dovetail drawers'],
       applications: ['Kitchens', 'Vanities', 'Mudrooms'],
@@ -40,7 +40,7 @@ const CabinetsPage = () => {
       wood: 'Walnut',
       color: 'Natural',
       doorType: 'Full Overlay',
-      image: 'https://images.unsplash.com/photo-1600585152915-d208bec867a1?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
+      image: 'https://images.unsplash.com/photo-1745985966566-06866a284a4d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
       description: 'European-style frameless construction in rift-cut walnut, optimized for maximum interior storage and a seamless modern face.',
       characteristics: ['Frameless build', 'Rift-cut grain', 'Full-access interior'],
       applications: ['Modern kitchens', 'Home offices', 'Entertainment built-ins']
@@ -52,7 +52,7 @@ const CabinetsPage = () => {
       wood: 'Cherry',
       color: 'Natural',
       doorType: 'Inset',
-      image: 'https://images.unsplash.com/photo-1556909114-4f2a4b97bc7b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
+      image: 'https://images.unsplash.com/photo-1667841678290-6d13122e0fea?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
       description: 'Traditional inset cabinetry in solid cherry with raised-panel doors, matched and beaded for heirloom-quality results.',
       characteristics: ['Solid cherry doors', 'Beaded face frame', 'Heirloom joinery'],
       applications: ['Traditional kitchens', 'Libraries', 'Bath vanities']
@@ -64,7 +64,7 @@ const CabinetsPage = () => {
       wood: 'Painted MDF',
       color: 'Espresso',
       doorType: 'Full Overlay',
-      image: 'https://images.unsplash.com/photo-1631889993959-41b4e9c6e3c5?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
+      image: 'https://images.unsplash.com/photo-1574179545952-beea045f0b12?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
       description: 'Clean, flush slab doors finished in deep espresso lacquer — a contemporary look with no visible hardware when paired with push-open.',
       characteristics: ['Flush slab face', 'Hand-sprayed lacquer', 'Push-open ready'],
       applications: ['Contemporary kitchens', 'Condo vanities', 'Minimalist built-ins']

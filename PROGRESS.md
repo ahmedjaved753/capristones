@@ -2,7 +2,7 @@
 
 Living status document for the Premium Stones website. Reverse-chronological revision log below. Each entry links to the spec, plan, and changelog for that revision round — those are the source of truth; this file is just the index.
 
-## Current state (as of 2026-04-28)
+## Current state (as of 2026-04-29)
 
 - **Pages live:** Home, Natural Stone listing + detail, Quartz listing + detail, Appointments, Contact. (6 of 8 collections rendering real content.)
 - **Pages shadowed by Coming Soon:** Cabinets and Shower Panels (listing + detail) — see the 2026-04-28 shadowing entry below. The original components are preserved on disk; routes can be restored with a 1-line edit per route in `src/App.jsx`.
@@ -14,6 +14,13 @@ Living status document for the Premium Stones website. Reverse-chronological rev
 - **Open items:** none currently tracked. If client feedback arrives, new revision rounds get their own spec + plan + changelog entry and append to the log below.
 
 ## Revision log
+
+### 2026-04-29 — Cabinet imagery swapped to quarry photos
+
+Per client direction ("remove all photos of furniture and replace with stock photos of a quarry — keep the hero for now"), all eight image URLs on the Cabinet pages were replaced with four distinct, high-quality Unsplash quarry photographs (sourced from `marble-quarry`, `stone-quarry`, and `granite-quarry` searches; free-CDN hot-linkable URLs). The four chosen shots span an aerial turquoise marble quarry, a sweeping multi-tier rock-wall quarry, a forested cliffside quarry, and an aerial cream-tiered quarry — visual variety while staying within the site's premium aesthetic. Cabinet routes are still shadowed by `ComingSoonPage` so the swap isn't visible on the live site, but the components are kept warm for the eventual restore. The home-page hero background was deliberately left unchanged at the client's request. No code-shape, copy, or layout edits — only `image:` and `gallery:` URLs in `CabinetsPage.jsx` and `CabinetDetailPage.jsx`. Visual tests pass with no baseline updates needed (cabinet baselines capture `ComingSoonPage`; visual tests also mask `<img>` elements globally).
+
+- **Client changelog:** [`docs/changelog/2026-04-29-cabinet-imagery-quarry-swap.md`](docs/changelog/2026-04-29-cabinet-imagery-quarry-swap.md)
+- **HOW-TO-REVISE recipe added:** Recipe 15 — "Swap card / gallery imagery on a category page" (covers any future round of image swaps; lists the file map and the safe-to-swap rationale).
 
 ### 2026-04-28 — Brand logo added to nav, footer, and favicon
 
