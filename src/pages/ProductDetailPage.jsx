@@ -3,8 +3,27 @@ import { useParams, useLocation, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import * as FiIcons from 'react-icons/fi';
 import SafeIcon from '../common/SafeIcon';
+import { naturalStones } from '../data/naturalStones';
 
 const { FiArrowLeft } = FiIcons;
+
+// Fallback used when (a) route is /quartz/:id, or (b) /natural-stone/:id has
+// no matching product in the data module. Preserves the previous hardcoded
+// behavior so Quartz and out-of-range IDs don't break.
+const fallbackProduct = {
+  name: 'Carrara Marble Classic',
+  material: 'Marble',
+  finish: 'Polished',
+  origin: 'Brazil',
+  applications: ['Countertops', 'Backsplashes', 'Flooring', 'Wall Cladding', 'Bathroom Vanities'],
+  gallery: [
+    'https://images.unsplash.com/photo-1623197532650-bacb8a68914e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
+    'https://images.unsplash.com/photo-1540177656454-3f6c4547bed1?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
+    'https://images.unsplash.com/photo-1640280882429-204f63d777e7?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
+    'https://images.unsplash.com/photo-1745985966566-06866a284a4d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80'
+  ],
+  featured: true
+};
 
 const ProductDetailPage = () => {
   const { id } = useParams();
@@ -14,21 +33,13 @@ const ProductDetailPage = () => {
   const categoryPath = location.pathname.startsWith('/quartz') ? '/quartz' : '/natural-stone';
   const categoryLabel = categoryPath === '/quartz' ? 'Quartz' : 'Natural Stone';
 
-  const product = {
-    id: parseInt(id),
-    name: 'Carrara Marble Classic',
-    material: 'Marble',
-    finish: 'Polished',
-    origin: 'Brazil',
-    applications: ['Countertops', 'Backsplashes', 'Flooring', 'Wall Cladding', 'Bathroom Vanities'],
-    gallery: [
-      'https://images.unsplash.com/photo-1623197532650-bacb8a68914e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
-      'https://images.unsplash.com/photo-1540177656454-3f6c4547bed1?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
-      'https://images.unsplash.com/photo-1640280882429-204f63d777e7?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
-      'https://images.unsplash.com/photo-1745985966566-06866a284a4d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80'
-    ],
-    featured: true
-  };
+  // Look up the product in the data module for /natural-stone routes;
+  // fall back to the hardcoded product for /quartz and out-of-range IDs.
+  const numericId = parseInt(id, 10);
+  const found = categoryPath === '/natural-stone'
+    ? naturalStones.find((s) => s.id === numericId)
+    : null;
+  const product = found ?? { id: numericId, ...fallbackProduct };
 
   return (
     <div className="min-h-screen bg-surface pt-20">
@@ -61,23 +72,25 @@ const ProductDetailPage = () => {
                   className="w-full h-full object-cover"
                 />
               </div>
-              <div className="grid grid-cols-4 gap-3 mt-3">
-                {product.gallery.map((image, index) => (
-                  <button
-                    key={index}
-                    onClick={() => setActiveImage(index)}
-                    className={`aspect-square overflow-hidden border cursor-pointer transition-colors duration-200 ${
-                      activeImage === index ? 'border-surface-dark' : 'border-stone-200 hover:border-stone-400'
-                    }`}
-                  >
-                    <img
-                      src={image}
-                      alt={`${product.name} ${index + 1}`}
-                      className="w-full h-full object-cover"
-                    />
-                  </button>
-                ))}
-              </div>
+              {product.gallery.length > 1 && (
+                <div className="grid grid-cols-4 gap-3 mt-3">
+                  {product.gallery.map((image, index) => (
+                    <button
+                      key={index}
+                      onClick={() => setActiveImage(index)}
+                      className={`aspect-square overflow-hidden border cursor-pointer transition-colors duration-200 ${
+                        activeImage === index ? 'border-surface-dark' : 'border-stone-200 hover:border-stone-400'
+                      }`}
+                    >
+                      <img
+                        src={image}
+                        alt={`${product.name} ${index + 1}`}
+                        className="w-full h-full object-cover"
+                      />
+                    </button>
+                  ))}
+                </div>
+              )}
             </motion.div>
 
             {/* Info */}
