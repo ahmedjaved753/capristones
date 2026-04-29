@@ -557,7 +557,7 @@ In each detail page:
 
 **File map:**
 
-- `src/pages/NaturalStonePage.jsx` → `naturalStones[].image` (4 cards)
+- `src/data/naturalStones.js` → `filenames` array (25 cards). Updated 2026-04-29: Natural Stone images come from filenames in the public `stones` Supabase Storage bucket. To swap an image, upload the replacement to the bucket and either reuse the existing filename (overwrite) or update the filename in the array. To swap the *whole catalog*, see Recipe 16.
 - `src/pages/QuartzPage.jsx` → `quartzProducts[].image` (4 cards)
 - `src/pages/ShowerPanelsPage.jsx` → `showerPanels[].image` (4 cards) **— shadowed**
 - `src/pages/CabinetsPage.jsx` → `cabinets[].image` (4 cards) **— shadowed**
@@ -618,20 +618,22 @@ Describe what you want in plain language. A design spec will be written, concret
 
 ## Swapping in real product data for a category
 
-The four listing pages each hold their mock product data inline as a single array near the top of the component file. When the client supplies real products for a category, replace the array — no other changes needed.
+When the client supplies real products for a category, replace the data — no other changes needed.
 
 **File per category:**
 
-- Natural Stone → `src/pages/NaturalStonePage.jsx` (array: `naturalStones`)
-- Quartz → `src/pages/QuartzPage.jsx` (array: `quartzProducts`)
-- Shower Panels → `src/pages/ShowerPanelsPage.jsx` (array: `showerPanels`)
-- Cabinets → `src/pages/CabinetsPage.jsx` (array: `cabinets`)
+- Natural Stone → `src/data/naturalStones.js` (data module; 25 placeholder products derived from a `filenames` array). To accept real names/specs, refactor the `.map(...)` to take per-product overrides keyed by **filename** (the only stable identifier; `id` is positional and shifts when entries are added/removed).
+- Quartz → `src/pages/QuartzPage.jsx` (inline array: `quartzProducts`, 4 cards)
+- Shower Panels → `src/pages/ShowerPanelsPage.jsx` (inline array: `showerPanels`, 4 cards) **— shadowed**
+- Cabinets → `src/pages/CabinetsPage.jsx` (inline array: `cabinets`, 4 cards) **— shadowed**
+
+Note: Natural Stone moved to a data module on 2026-04-29 with the Supabase Storage round; the other three categories still hold their data inline near the top of the page component. When their catalogs grow past ~10 products, do the same migration.
 
 **Steps:**
 
-1. Open the file, find the product array.
-2. Replace each object with real data, keeping the same field names. Filter keys are `type`/`color`/`finish`/`origin` for stone, `brand`/`color`/`pattern`/`finish` for quartz, `material`/`color`/`size`/`finish` for shower panels, `style`/`wood`/`color`/`doorType` for cabinets.
-3. The detail pages (`ProductDetailPage.jsx`, `ShowerPanelDetailPage.jsx`, `CabinetDetailPage.jsx`) currently hard-code a single product. Update the object there too if the client wants a specific featured product on the detail route.
+1. Open the file (data module for Natural Stone, page component for the others) and find the product array.
+2. Replace each object with real data, keeping the same field names. Listing-card filter keys (where they still exist) are `brand`/`color`/`pattern`/`finish` for quartz, `material`/`color`/`size`/`finish` for shower panels, `style`/`wood`/`color`/`doorType` for cabinets. Natural Stone has no filters anymore — when real product types arrive, restore the filter UI in `NaturalStonePage.jsx` along with the data.
+3. The Quartz detail page (`ProductDetailPage.jsx`) currently hard-codes a single fallback product (Carrara Marble Classic) for Quartz routes. Replace the `fallbackProduct` const with real Quartz lookup data when the catalog arrives. Shower Panel and Cabinet detail pages (currently shadowed) follow the same pattern in their own files.
 4. Run `npm run build`, then `npm run test:visual`. Card images and product-name text will shift — if the shift is intentional, run `npm run test:visual:update` and commit the new baselines.
 
-**Why it's simple:** none of the listing logic (filters, grid layout, card template) cares about the product identities. It just iterates whatever is in the array. Adding a 5th or 10th product works the same way — just push a new object onto the array.
+**Why it's simple:** the listing logic (grid layout, card template) doesn't care about product identities. It just iterates whatever is in the array. Adding a 5th or 26th product works the same way — push a new entry.
