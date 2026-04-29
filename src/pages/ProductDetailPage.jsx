@@ -39,7 +39,7 @@ const ProductDetailPage = () => {
   const found = categoryPath === '/natural-stone'
     ? naturalStones.find((s) => s.id === numericId)
     : null;
-  const product = found ?? { id: numericId, ...fallbackProduct };
+  const product = found ?? { ...fallbackProduct, id: numericId };
 
   return (
     <div className="min-h-screen bg-surface pt-20">
