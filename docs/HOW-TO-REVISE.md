@@ -588,6 +588,28 @@ Existing imagery is hosted on Unsplash via direct CDN URLs of the form `https://
 
 ---
 
+## Recipe 16 — Add a new stone product to the catalog
+
+**When you'd do this:** the client sends a new natural-stone photo and asks you to add it to the listing.
+
+**Where to edit:** `src/data/naturalStones.js`.
+
+**Steps:**
+
+1. Upload the new image to the public `stones` Supabase Storage bucket via the Supabase dashboard. Note the exact filename (case-sensitive). Recommended formats: JPG or PNG (HEIC won't render in Chrome/Firefox).
+2. Open `src/data/naturalStones.js`. Append the new filename to the `filenames` array. The new product's `id`, `name`, `image`, and `gallery` are derived automatically — its `id` is the new array length, its `name` is `Stone NN` (zero-padded).
+3. `npm run build` — confirm no syntax errors.
+4. `npm run test:visual` — the listing-page baseline will fail because the grid grew. Run `npm run test:visual:update` to accept.
+5. Commit the data-file change AND the regenerated baselines together.
+
+**To remove a product:** delete the matching filename from the `filenames` array. The remaining products' IDs will shift down — if any existing bookmarks point at `/natural-stone/15`, those will now resolve to a different product. Acceptable while the catalog is still placeholder; reconsider once real product names are in.
+
+**To override a product's name or applications:** the current `naturalStones.map(...)` derives all fields from the filename only. To customize, refactor the data module to accept per-product overrides — when you do, key the overrides by FILENAME (the stable, content-derived identifier), not by `id` (which is positional and shifts when the array changes).
+
+**Effort:** 2–3 minutes per product.
+
+---
+
 ## Fallback — if you want something none of these cover
 
 Describe what you want in plain language. A design spec will be written, concrete options will be proposed, you'll choose one, and it will be implemented, tested, and changelogged. The brainstorming → spec → plan → implementation workflow documented in `docs/superpowers/` is how every previous revision round on this project was handled.

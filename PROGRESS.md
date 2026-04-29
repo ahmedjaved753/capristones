@@ -9,11 +9,19 @@ Living status document for the Premium Stones website. Reverse-chronological rev
 - **Palette:** terracotta `#B8431E` + warm sienna `#E07A3C` + peach-cream veil `#FBEBDD` on near-white `#FAFAF9` / near-black `#1C1917`. See `CLAUDE.md` "Palette" section.
 - **Typography:** Cormorant serif (display) + Montserrat sans (body). Unchanged since editorial revamp.
 - **Pricing & sourcing:** Pricing is **not displayed** anywhere on the site. Listing cards show a "BY INQUIRY" eyebrow; detail pages show a "PRICING ON REQUEST" line. Every Natural Stone product is sourced from **Brazil** (single-origin); the origin filter has been removed since variance is zero.
-- **Data:** All product data is mocked in-component. Supabase client is wired up (`src/lib/supabase.js`) using publishable-key auth via Vite env vars; no tables are read yet, but the client is ready for the first data integration.
+- **Data:** Natural Stone reads its 25 products from `src/data/naturalStones.js`, with image URLs served from the public `stones` Supabase Storage bucket. Other categories (Quartz, etc.) still mock in-component. No Supabase tables are read yet — only Storage. Client is wired up (`src/lib/supabase.js`) using publishable-key auth.
 - **Testing:** Playwright visual regression covers 10 routes — 20 baseline screenshots in `tests/visual.spec.js-snapshots/`. Run `npm run test:visual` before committing any user-facing change.
 - **Open items:** none currently tracked. If client feedback arrives, new revision rounds get their own spec + plan + changelog entry and append to the log below.
 
 ## Revision log
+
+### 2026-04-29 — Real natural-stone imagery from Supabase Storage
+
+The 4 hardcoded mock natural-stone products were replaced with 25 real photos served from the public `stones` Supabase Storage bucket the client populated. Names/types/descriptions remain placeholder ("Stone 01" through "Stone 25") because the client hasn't supplied product copy yet — the round is image-only by design. The listing page lost its search input and filter dropdowns (cosmetic-only against placeholder data) and the card content was simplified to image + Brazil pill + name + "By Inquiry" + "View Details". The detail page got a long-overdue fix: it now looks up the product by `:id` from the data module instead of hardcoding "Carrara Marble Classic" for every URL; Quartz and out-of-range IDs fall back to the previous hardcoded behavior so Quartz keeps working without scope creep. New helper `stoneImageUrl(filename)` in `src/lib/supabase.js` builds public URLs via `supabase.storage.from('stones').getPublicUrl(...)`. New module `src/data/naturalStones.js` owns the 25-product array. One photo (`IMG_1841.heic`) is excluded — Chrome/Firefox don't render HEIC; TODO in the data file to convert and re-add as a 26th entry. 4 visual baselines regenerated for natural-stone and detail-page routes; all 20 tests now pass.
+
+- **Spec:** [`docs/superpowers/specs/2026-04-29-natural-stone-real-imagery-design.md`](docs/superpowers/specs/2026-04-29-natural-stone-real-imagery-design.md)
+- **Plan:** [`docs/superpowers/plans/2026-04-29-natural-stone-real-imagery.md`](docs/superpowers/plans/2026-04-29-natural-stone-real-imagery.md)
+- **Client changelog:** [`docs/changelog/2026-04-29-natural-stone-real-imagery.md`](docs/changelog/2026-04-29-natural-stone-real-imagery.md)
 
 ### 2026-04-29 — Stone-surface imagery across Home / Natural Stone / Quartz / detail page
 
