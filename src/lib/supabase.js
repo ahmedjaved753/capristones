@@ -10,3 +10,6 @@ if (!supabaseUrl || !supabasePublishableKey) {
 }
 
 export const supabase = createClient(supabaseUrl, supabasePublishableKey)
+
+export const stoneImageUrl = (filename) =>
+  supabase.storage.from('stones').getPublicUrl(filename).data.publicUrl
