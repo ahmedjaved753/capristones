@@ -23,7 +23,7 @@ const NaturalStonePage = () => {
       color: 'White',
       finish: 'Polished',
       origin: 'Brazil',
-      image: 'https://images.unsplash.com/photo-1615971677499-5467cbab01c0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
+      image: 'https://images.unsplash.com/photo-1623197532650-bacb8a68914e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
       description: 'The epitome of luxury, prized for centuries for its pure white background and subtle gray veining.',
       characteristics: ['Elegant veining', 'Timeless appeal', 'Versatile applications'],
       applications: ['Countertops', 'Backsplashes', 'Flooring', 'Sculptures'],
@@ -36,7 +36,7 @@ const NaturalStonePage = () => {
       color: 'Black',
       finish: 'Polished',
       origin: 'Brazil',
-      image: 'https://images.unsplash.com/photo-1565538810643-b5bdb714032a?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
+      image: 'https://images.unsplash.com/photo-1550053808-52a75a05955d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
       description: 'Pure black granite with no patterns, offering a sleek modern aesthetic for contemporary designs.',
       characteristics: ['Uniform color', 'High durability', 'Heat resistant'],
       applications: ['Countertops', 'Islands', 'Exterior cladding']
@@ -48,7 +48,7 @@ const NaturalStonePage = () => {
       color: 'Beige',
       finish: 'Tumbled',
       origin: 'Brazil',
-      image: 'https://images.unsplash.com/photo-1631889993959-41b4e9c6e3c5?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
+      image: 'https://images.unsplash.com/photo-1632198761400-00497310f848?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
       description: 'Classic Roman travertine with warm beige tones and natural pitting that creates authentic Old World charm.',
       characteristics: ['Natural texture', 'Warm tones', 'Historical significance'],
       applications: ['Flooring', 'Wall cladding', 'Pool decking']
@@ -60,7 +60,7 @@ const NaturalStonePage = () => {
       color: 'Brown',
       finish: 'Honed',
       origin: 'Brazil',
-      image: 'https://images.unsplash.com/photo-1600585152915-d208bec867a1?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
+      image: 'https://images.unsplash.com/photo-1584403293325-756fc1786516?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
       description: 'Rich chocolate brown marble with dramatic white and gold veining for warm, luxurious spaces.',
       characteristics: ['Rich brown color', 'Dramatic veining', 'Warm undertones'],
       applications: ['Feature walls', 'Countertops', 'Fireplace surrounds']

@@ -11,14 +11,14 @@ const HomePage = () => {
     {
       name: 'Natural Stone',
       path: '/natural-stone',
-      image: 'https://images.unsplash.com/photo-1631889993959-41b4e9c6e3c5?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+      image: 'https://images.unsplash.com/photo-1694378061058-bb6532de3bba?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
       description: 'Authentic natural stone with unique character and timeless beauty',
       label: '01'
     },
     {
       name: 'Quartz',
       path: '/quartz',
-      image: 'https://images.unsplash.com/photo-1600585152915-d208bec867a1?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+      image: 'https://images.unsplash.com/photo-1554296048-b59c9fca4857?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
       description: 'Engineered quartz surfaces combining beauty with enduring durability',
       label: '02'
     }

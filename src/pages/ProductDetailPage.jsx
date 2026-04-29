@@ -22,10 +22,10 @@ const ProductDetailPage = () => {
     origin: 'Brazil',
     applications: ['Countertops', 'Backsplashes', 'Flooring', 'Wall Cladding', 'Bathroom Vanities'],
     gallery: [
-      'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
-      'https://images.unsplash.com/photo-1556909114-4f2a4b97bc7b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
-      'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
-      'https://images.unsplash.com/photo-1620626011761-996317b8d101?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80'
+      'https://images.unsplash.com/photo-1623197532650-bacb8a68914e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
+      'https://images.unsplash.com/photo-1540177656454-3f6c4547bed1?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
+      'https://images.unsplash.com/photo-1640280882429-204f63d777e7?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
+      'https://images.unsplash.com/photo-1745985966566-06866a284a4d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80'
     ],
     featured: true
   };
