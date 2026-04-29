@@ -32,6 +32,8 @@ dist-ssr
 # Changelog screenshots (client-facing before/after assets) ARE committed
 !docs/changelog/assets/before/*.png
 !docs/changelog/assets/after/*.png
+# Brand logo IS committed — referenced as favicon in index.html and rendered in Navigation.jsx + Footer.jsx
+!public/logo.png
 
 # Claude Code local state
 .claude/
