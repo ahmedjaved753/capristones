@@ -3,8 +3,9 @@ import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import * as FiIcons from 'react-icons/fi';
 import SafeIcon from '../common/SafeIcon';
+import { quartzProducts } from '../data/quartz';
 
-const { FiGrid, FiList, FiArrowRight, FiSearch, FiStar } = FiIcons;
+const { FiGrid, FiList, FiArrowRight, FiSearch } = FiIcons;
 
 const QuartzPage = () => {
   const [viewMode, setViewMode] = useState('grid');
@@ -16,71 +17,14 @@ const QuartzPage = () => {
     finish: 'All'
   });
 
-  const quartzProducts = [
-    {
-      id: 1,
-      name: 'Pure White',
-      brand: 'Caesarstone',
-      color: 'White',
-      pattern: 'Solid',
-      finish: 'Polished',
-      thickness: '2cm, 3cm',
-      image: 'https://images.unsplash.com/photo-1566041510394-cf7c8fe21800?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
-      description: 'Pure white quartz with subtle sparkle, perfect for modern minimalist designs.',
-      features: ['Non-porous', 'Stain resistant', 'Easy maintenance'],
-      applications: ['Countertops', 'Backsplashes', 'Islands'],
-      rating: 4.8,
-      popular: true
-    },
-    {
-      id: 2,
-      name: 'Midnight Black',
-      brand: 'Silestone',
-      color: 'Black',
-      pattern: 'Solid',
-      finish: 'Polished',
-      thickness: '3cm',
-      image: 'https://images.unsplash.com/photo-1747696766706-5485b39bf358?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
-      description: 'Deep black quartz with subtle shimmer for dramatic contemporary spaces.',
-      features: ['Uniform color', 'Highly durable', 'Heat resistant'],
-      applications: ['Countertops', 'Feature walls', 'Luxury projects'],
-      rating: 4.9
-    },
-    {
-      id: 3,
-      name: 'Concrete Gray',
-      brand: 'HanStone',
-      color: 'Gray',
-      pattern: 'Solid',
-      finish: 'Matte',
-      thickness: '2cm, 3cm',
-      image: 'https://images.unsplash.com/photo-1585749864755-f1adb4ec8e29?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
-      description: 'Industrial-inspired gray quartz with concrete-like appearance for modern spaces.',
-      features: ['Matte finish', 'Fingerprint resistant', 'Contemporary look'],
-      applications: ['Countertops', 'Islands', 'Commercial spaces'],
-      rating: 4.6
-    },
-    {
-      id: 4,
-      name: 'Warm Brown',
-      brand: 'Caesarstone',
-      color: 'Brown',
-      pattern: 'Solid',
-      finish: 'Honed',
-      thickness: '3cm',
-      image: 'https://images.unsplash.com/photo-1628977614615-f5f4068361ed?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80',
-      description: 'Rich brown quartz with warm undertones, perfect for cozy traditional spaces.',
-      features: ['Warm tones', 'Consistent pattern', 'Sophisticated look'],
-      applications: ['Traditional kitchens', 'Warm color schemes', 'Feature elements'],
-      rating: 4.7
-    }
-  ];
-
+  // Filter options derived from the actual product set so the dropdowns
+  // never list values that filter to zero results. Brand currently only
+  // contains the house brand because no upstream brand metadata is exposed.
   const filterOptions = {
-    brand: ['All', 'Caesarstone', 'Silestone', 'HanStone', 'Corian Quartz', 'Cambria'],
-    color: ['All', 'White', 'Black', 'Gray', 'Brown'],
+    brand: ['All', 'Premium Stones'],
+    color: ['All', 'White', 'Black', 'Gray'],
     pattern: ['All', 'Solid', 'Veined', 'Speckled'],
-    finish: ['All', 'Polished', 'Honed', 'Matte']
+    finish: ['All', 'Polished']
   };
 
   const filteredQuartz = quartzProducts.filter(product => {
@@ -216,86 +160,30 @@ const QuartzPage = () => {
                         <img
                           src={product.image}
                           alt={product.name}
+                          loading="lazy"
                           className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                         />
-                        {product.popular && (
-                          <div className="absolute top-4 left-4">
-                            <span className="bg-accent text-white px-3 py-1 font-body text-[10px] font-semibold uppercase tracking-widest">
-                              Popular
-                            </span>
-                          </div>
-                        )}
                         <div className="absolute bottom-4 right-4">
                           <span className="bg-white/90 text-surface-dark px-3 py-1 font-body text-[10px] font-semibold uppercase tracking-wider">
-                            {product.brand}
+                            {product.origin}
                           </span>
                         </div>
                       </div>
 
-                      {/* Content */}
+                      {/* Content — mirrors Natural Stone card: H3 + By Inquiry, then View Details. */}
                       <div className={`p-8 ${viewMode === 'list' ? 'md:w-3/5 flex flex-col justify-between' : ''}`}>
-                        <div>
-                          <div className="flex justify-between items-start mb-3">
-                            <div>
-                              {/* Product names stay ink — orange here would compete with the product photography. */}
-                              <h3 className="font-display text-2xl font-bold text-surface-dark group-hover:text-accent transition-colors duration-200">
-                                {product.name}
-                              </h3>
-                              <div className="flex items-center gap-3 mt-2">
-                                <div className="flex items-center gap-1">
-                                  {[...Array(5)].map((_, i) => (
-                                    <SafeIcon
-                                      key={i}
-                                      icon={FiStar}
-                                      className={`text-xs ${
-                                        i < Math.floor(product.rating) ? 'text-accent fill-current' : 'text-stone-300'
-                                      }`}
-                                    />
-                                  ))}
-                                  <span className="font-body text-xs text-stone-500 ml-1">{product.rating}</span>
-                                </div>
-                              </div>
-                            </div>
-                            {/* "By Inquiry" replaces the former price — quiet eyebrow keeps the card photography as hero. */}
-                            <span className="font-body text-[10px] font-semibold uppercase tracking-widest text-stone-500 mt-2">
-                              By Inquiry
-                            </span>
-                          </div>
-
-                          <p className="font-body text-sm text-stone-500 leading-relaxed mt-4">
-                            {product.description}
-                          </p>
-
-                          {/* Specs */}
-                          <div className="grid grid-cols-2 gap-x-6 gap-y-2 mt-5">
-                            {[
-                              { label: 'Pattern', value: product.pattern },
-                              { label: 'Finish', value: product.finish },
-                              { label: 'Thickness', value: product.thickness },
-                              { label: 'Brand', value: product.brand }
-                            ].map((spec) => (
-                              <div key={spec.label}>
-                                <span className="font-body text-[10px] font-semibold uppercase tracking-widest text-stone-400">
-                                  {spec.label}
-                                </span>
-                                <p className="font-body text-sm text-surface-dark">{spec.value}</p>
-                              </div>
-                            ))}
-                          </div>
-
-                          {/* Features */}
-                          <div className="flex flex-wrap gap-2 mt-5">
-                            {product.features.map((feature) => (
-                              <span
-                                key={feature}
-                                className="px-3 py-1 border border-stone-200 font-body text-[10px] font-medium uppercase tracking-wider text-stone-600"
-                              >
-                                {feature}
-                              </span>
-                            ))}
-                          </div>
+                        <div className="flex justify-between items-start">
+                          {/* Product names stay ink — orange here would compete with the product photography. */}
+                          <h3 className="font-display text-2xl font-bold text-surface-dark group-hover:text-accent transition-colors duration-200">
+                            {product.name}
+                          </h3>
+                          {/* "By Inquiry" replaces the former price — quiet eyebrow keeps the card photography as hero. */}
+                          <span className="font-body text-[10px] font-semibold uppercase tracking-widest text-stone-500 mt-2">
+                            By Inquiry
+                          </span>
                         </div>
 
+                        {/* View Details */}
                         <div className="flex items-center gap-2 mt-6 font-body text-xs font-semibold uppercase tracking-widest text-surface-dark group-hover:text-accent transition-colors duration-200">
                           View Details
                           <SafeIcon icon={FiArrowRight} className="text-sm transition-transform duration-200 group-hover:translate-x-1" />

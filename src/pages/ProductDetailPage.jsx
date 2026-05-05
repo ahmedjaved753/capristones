@@ -4,12 +4,12 @@ import { motion } from 'framer-motion';
 import * as FiIcons from 'react-icons/fi';
 import SafeIcon from '../common/SafeIcon';
 import { naturalStones } from '../data/naturalStones';
+import { quartzProducts } from '../data/quartz';
 
 const { FiArrowLeft } = FiIcons;
 
-// Fallback used when (a) route is /quartz/:id, or (b) /natural-stone/:id has
-// no matching product in the data module. Preserves the previous hardcoded
-// behavior so Quartz and out-of-range IDs don't break.
+// Fallback used when the URL :id has no match in either data module.
+// Keeps the page from blowing up on stale or malformed links.
 const fallbackProduct = {
   name: 'Carrara Marble Classic',
   material: 'Marble',
@@ -33,13 +33,12 @@ const ProductDetailPage = () => {
   const categoryPath = location.pathname.startsWith('/quartz') ? '/quartz' : '/natural-stone';
   const categoryLabel = categoryPath === '/quartz' ? 'Quartz' : 'Natural Stone';
 
-  // Look up the product in the data module for /natural-stone routes;
-  // fall back to the hardcoded product for /quartz and out-of-range IDs.
-  const numericId = parseInt(id, 10);
+  // String compare so both numeric Natural Stone ids ("1"..."25") and
+  // slug-style Quartz ids ("venetian-white") resolve from the same param.
   const found = categoryPath === '/natural-stone'
-    ? naturalStones.find((s) => s.id === numericId)
-    : null;
-  const product = found ?? { ...fallbackProduct, id: numericId };
+    ? naturalStones.find((s) => String(s.id) === id)
+    : quartzProducts.find((p) => String(p.id) === id);
+  const product = found ?? { ...fallbackProduct, id };
 
   return (
     <div className="min-h-screen bg-surface pt-20">

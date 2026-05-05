@@ -2,18 +2,26 @@
 
 Living status document for the Premium Stones website. Reverse-chronological revision log below. Each entry links to the spec, plan, and changelog for that revision round — those are the source of truth; this file is just the index.
 
-## Current state (as of 2026-04-29)
+## Current state (as of 2026-05-06)
 
 - **Pages live:** Home, Natural Stone listing + detail, Quartz listing + detail, Appointments, Contact. (6 of 8 collections rendering real content.)
 - **Pages shadowed by Coming Soon:** Cabinets and Shower Panels (listing + detail) — see the 2026-04-28 shadowing entry below. The original components are preserved on disk; routes can be restored with a 1-line edit per route in `src/App.jsx`.
 - **Palette:** terracotta `#B8431E` + warm sienna `#E07A3C` + peach-cream veil `#FBEBDD` on near-white `#FAFAF9` / near-black `#1C1917`. See `CLAUDE.md` "Palette" section.
 - **Typography:** Cormorant serif (display) + Montserrat sans (body). Unchanged since editorial revamp.
 - **Pricing & sourcing:** Pricing is **not displayed** anywhere on the site. Listing cards show a "BY INQUIRY" eyebrow; detail pages show a "PRICING ON REQUEST" line. Every Natural Stone product is sourced from **Brazil** (single-origin); the origin filter has been removed since variance is zero.
-- **Data:** Natural Stone reads its 25 products from `src/data/naturalStones.js`, with image URLs served from the public `stones` Supabase Storage bucket. Other categories (Quartz, etc.) still mock in-component. No Supabase tables are read yet — only Storage. Client is wired up (`src/lib/supabase.js`) using publishable-key auth.
+- **Data:** Natural Stone reads 25 products from `src/data/naturalStones.js` (public `stones` bucket); Quartz reads 25 products from `src/data/quartz.js` (public `quartz` bucket). Cabinets and Shower Panels still mock in-component (those routes are shadowed anyway). No Supabase tables are read — only Storage. Client is wired up (`src/lib/supabase.js`) using publishable-key auth.
 - **Testing:** Playwright visual regression covers 10 routes — 20 baseline screenshots in `tests/visual.spec.js-snapshots/`. Run `npm run test:visual` before committing any user-facing change.
-- **Open items:** none currently tracked. If client feedback arrives, new revision rounds get their own spec + plan + changelog entry and append to the log below.
+- **Open items:** Quartz spec metadata (color, pattern) is currently inferred from product names; replace with real client metadata when supplied. Quartz `brand` filter is single-option until upstream brand info is provided.
 
 ## Revision log
+
+### 2026-05-06 — Real Quartz imagery from Supabase Storage (25 products) + card simplified to match Natural Stone
+
+Replaced the four hardcoded mock quartz products with 25 real photos served from the public `quartz` Supabase Storage bucket. Imagery sourced from Capri Stones (`capristones.com/quartz/`) with client-confirmed permission; downloaded via Playwright MCP, deduplicated (Capri serves byte-identical files for 4 SKU pairs), and re-curated to swap "with hand for scale" gallery shots for clean full-slab warehouse shots in 6 cases (1002, 1006, 1007, 1008, 1009, 1010). Display names came from each Capri product page's H1; spec metadata (color, pattern, finish) is inferred from product names where possible — `finish` is uniform `Polished`, `brand` is uniform `Premium Stones` (house brand) since Capri exposes no upstream brand info. Filter dropdowns rebuilt to match the actual data so no option ever filters to zero. New helper `quartzImageUrl(filename)` in `src/lib/supabase.js` mirrors the existing `stoneImageUrl`. New module `src/data/quartz.js` owns the 25-product array; `id` is the slug (`venetian-white`), so `/quartz/:id` URLs use slugs. `ProductDetailPage` was updated to look up by `String(p.id) === id` (works for both Natural Stone numeric ids and Quartz slugs); the previous hardcoded "Carrara Marble Classic" fallback now only fires for stale/malformed URLs. **Same-day follow-up:** the elaborate Quartz card (popular badge, brand pill, star rating, description, four-spec mini-grid, feature chips) was simplified to mirror Natural Stone's card exactly — image with `Engineered` pill bottom-right, name H3, `By Inquiry` eyebrow, `View Details` arrow. Per-product `popular`/`rating`/`features`/`thickness` were dropped from the data module since nothing renders them anymore; `description` stays for the search input. The downloader script (`_download.sh`) and the slug→source-URL manifest (`manifest.csv`) are committed under `capristones-quartz-images/` so the next category (Cabinets / Shower Panels) can reuse the pattern. The 25 product images themselves are NOT committed — `.gitignore` excludes `*.jpg` / `*.png` site-wide, and Supabase Storage is the source of truth for production imagery. Re-fetch by running `./capristones-quartz-images/_download.sh`. 1 visual baseline regenerated twice (`quartz-grid`) — once for the data swap, once for the card simplification.
+
+- **Source images & downloader:** [`capristones-quartz-images/`](capristones-quartz-images/) — `_download.sh`, `manifest.csv`, 25 jpgs.
+- **Client changelog:** [`docs/changelog/2026-05-06-quartz-real-imagery.md`](docs/changelog/2026-05-06-quartz-real-imagery.md)
+- **HOW-TO-REVISE recipe added:** Recipe 16 — "Add or replace a Quartz product" (covers Supabase upload + data-module edit).
 
 ### 2026-04-29 — Real natural-stone imagery from Supabase Storage
 

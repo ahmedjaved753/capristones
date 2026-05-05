@@ -610,6 +610,40 @@ Existing imagery is hosted on Unsplash via direct CDN URLs of the form `https://
 
 ---
 
+## Recipe 17 — Add or replace a Quartz product
+
+**When you'd do this:** the client sends new quartz photos to add, swap, or rename one of the existing 25.
+
+**Where to edit:** `src/data/quartz.js`.
+
+**Steps:**
+
+1. Upload the new image to the public `quartz` Supabase Storage bucket via the Supabase dashboard. Use a slug-style filename (`<slug>.jpg` or `<slug>.png`); avoid spaces or capitalization. Keep the file under ~2 MB for fast page loads.
+2. Open `src/data/quartz.js`. The `products` array near the top is the source of truth — add or edit an entry with these fields:
+
+   ```js
+   { slug: 'cathedral-white', file: 'cathedral-white.jpg', name: 'Cathedral White',
+     color: 'White', pattern: 'Veined' }
+   ```
+
+   - `slug` becomes the URL (e.g., `/quartz/cathedral-white`) and the `id` field on the product object — must be unique across the array.
+   - `file` must exactly match the filename in Supabase (case-sensitive).
+   - `name` is the H1 / card heading shown to visitors.
+   - `color` and `pattern` populate the listing-page filter dropdowns; valid values today are White / Black / Gray for color and Solid / Veined / Speckled for pattern. Add new values to `filterOptions` in `src/pages/QuartzPage.jsx` if you introduce a new color or pattern.
+
+3. The `STANDARD` block in the same file applies brand/finish/thickness/material/origin/rating/description/features/applications uniformly — only edit it if the change is truly site-wide. Per-product overrides live in the `products` array; refactor `STANDARD` into a per-entry merge if real metadata varies.
+4. `npm run build` — confirm no syntax errors.
+5. `npm run test:visual` — the listing-page baseline will fail because the visible cards changed. Run `npm run test:visual:update` to accept.
+6. Commit the data-file change AND the regenerated baselines together.
+
+**To rename a product:** changing `name` is safe and updates the card + detail page H1. Changing `slug` breaks any existing bookmarks pointing at the old slug — do this only when the catalog is still placeholder, or add a redirect.
+
+**To remove a product:** delete its entry from the `products` array. Slugs are stable identifiers (unlike Natural Stone's positional `id`), so removing one doesn't shift any other product's URL.
+
+**Effort:** 2–3 minutes per product.
+
+---
+
 ## Fallback — if you want something none of these cover
 
 Describe what you want in plain language. A design spec will be written, concrete options will be proposed, you'll choose one, and it will be implemented, tested, and changelogged. The brainstorming → spec → plan → implementation workflow documented in `docs/superpowers/` is how every previous revision round on this project was handled.
@@ -623,17 +657,17 @@ When the client supplies real products for a category, replace the data — no o
 **File per category:**
 
 - Natural Stone → `src/data/naturalStones.js` (data module; 25 placeholder products derived from a `filenames` array). To accept real names/specs, refactor the `.map(...)` to take per-product overrides keyed by **filename** (the only stable identifier; `id` is positional and shifts when entries are added/removed).
-- Quartz → `src/pages/QuartzPage.jsx` (inline array: `quartzProducts`, 4 cards)
+- Quartz → `src/data/quartz.js` (data module; 25 real products, slug-keyed). To swap one product or add another, see Recipe 17.
 - Shower Panels → `src/pages/ShowerPanelsPage.jsx` (inline array: `showerPanels`, 4 cards) **— shadowed**
 - Cabinets → `src/pages/CabinetsPage.jsx` (inline array: `cabinets`, 4 cards) **— shadowed**
 
-Note: Natural Stone moved to a data module on 2026-04-29 with the Supabase Storage round; the other three categories still hold their data inline near the top of the page component. When their catalogs grow past ~10 products, do the same migration.
+Note: Natural Stone moved to a data module on 2026-04-29; Quartz followed on 2026-05-06 (with the `quartz` Supabase bucket). Shower Panels and Cabinets still hold their data inline near the top of the page component — when those routes are restored from Coming Soon, do the same migration.
 
 **Steps:**
 
-1. Open the file (data module for Natural Stone, page component for the others) and find the product array.
-2. Replace each object with real data, keeping the same field names. Listing-card filter keys (where they still exist) are `brand`/`color`/`pattern`/`finish` for quartz, `material`/`color`/`size`/`finish` for shower panels, `style`/`wood`/`color`/`doorType` for cabinets. Natural Stone has no filters anymore — when real product types arrive, restore the filter UI in `NaturalStonePage.jsx` along with the data.
-3. The Quartz detail page (`ProductDetailPage.jsx`) currently hard-codes a single fallback product (Carrara Marble Classic) for Quartz routes. Replace the `fallbackProduct` const with real Quartz lookup data when the catalog arrives. Shower Panel and Cabinet detail pages (currently shadowed) follow the same pattern in their own files.
+1. Open the file (data module for Natural Stone / Quartz, page component for Shower Panels / Cabinets) and find the product array.
+2. Replace each object with real data, keeping the same field names. Listing-card filter keys (where they still exist) are `brand`/`color`/`pattern`/`finish` for quartz, `material`/`color`/`size`/`finish` for shower panels, `style`/`wood`/`color`/`doorType` for cabinets. Natural Stone has no filters anymore — when real product types arrive, restore the filter UI in `NaturalStonePage.jsx` along with the data. For quartz, also update `filterOptions` in `QuartzPage.jsx` if you introduce a new color/pattern value not currently listed.
+3. `ProductDetailPage.jsx` resolves both Natural Stone (numeric id) and Quartz (slug id) lookups via `String(p.id) === id`. Shower Panel and Cabinet detail pages (currently shadowed) follow the same pattern in their own files. The `fallbackProduct` only fires for stale/malformed URLs and rarely needs editing.
 4. Run `npm run build`, then `npm run test:visual`. Card images and product-name text will shift — if the shift is intentional, run `npm run test:visual:update` and commit the new baselines.
 
 **Why it's simple:** the listing logic (grid layout, card template) doesn't care about product identities. It just iterates whatever is in the array. Adding a 5th or 26th product works the same way — push a new entry.

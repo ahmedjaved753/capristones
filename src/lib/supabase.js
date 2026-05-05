@@ -25,3 +25,6 @@ export const supabase = hasCredentials
 
 export const stoneImageUrl = (filename) =>
   supabase?.storage.from('stones').getPublicUrl(filename).data.publicUrl ?? ''
+
+export const quartzImageUrl = (filename) =>
+  supabase?.storage.from('quartz').getPublicUrl(filename).data.publicUrl ?? ''
