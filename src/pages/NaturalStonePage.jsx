@@ -146,7 +146,7 @@ const NaturalStonePage = () => {
               Each piece has its own unique character.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link to="/appointments">
+              <Link to="/contact">
                 <button className="btn-primary">Visit Our Showroom</button>
               </Link>
               <Link to="/contact">

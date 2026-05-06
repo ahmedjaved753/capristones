@@ -55,7 +55,7 @@ accent: {
 
 ## Recipe 2 — Change the warm-sienna accent shade
 
-**When you'd do this:** client says *"the italic word in the hero / page titles should be a different tone"* (it's the lighter orange used on "to Last", "Stone", "Quartz", "Appointment", "Your Project", "Your Space?", and the footer brand).
+**When you'd do this:** client says *"the italic word in the hero / page titles should be a different tone"* (it's the lighter orange used on "to Last", "Stone", "Quartz", "Your Project", "Your Space?", and the footer brand).
 
 **Where to edit:** `tailwind.config.js`, the `accent.warm` key.
 
@@ -144,13 +144,13 @@ Check first whether the heading is one of the **deliberate carve-outs** (product
 
 **What to change:** find the `<section>` tag wrapping that section. Replace `bg-surface` or `bg-white` on its className with `bg-accent-veil`.
 
-Example — to wash the Appointments "What to Expect" card:
+Example — to wash the Contact "Business Hours" card:
 
 ```jsx
-// In src/components/AppointmentsPage.jsx:
-<div className="border border-stone-200 p-8">
+// In src/components/ContactSection.jsx:
+<div className="border border-stone-200 p-6">
 // becomes:
-<div className="border border-stone-200 p-8 bg-accent-veil">
+<div className="border border-stone-200 p-6 bg-accent-veil">
 ```
 
 **Effort:** 2 minutes per section. **Design tip:** don't wash more than one or two sections per page — the whole value of the wash is that it marks a special moment. More washes = more noise.
@@ -641,6 +641,167 @@ Existing imagery is hosted on Unsplash via direct CDN URLs of the form `https://
 **To remove a product:** delete its entry from the `products` array. Slugs are stable identifiers (unlike Natural Stone's positional `id`), so removing one doesn't shift any other product's URL.
 
 **Effort:** 2–3 minutes per product.
+
+---
+
+## Recipe 18 — Restore an appointments / booking flow
+
+**When you'd do this:** client reverses the walk-in policy and wants visitors to schedule a visit again. Removed on 2026-05-06; see `docs/changelog/2026-05-06-remove-appointments.md` for what was retired and why.
+
+**Where to edit:**
+
+1. **Restore the page files** — bring back `src/pages/AppointmentsPage.jsx` (thin wrapper) and `src/components/AppointmentsPage.jsx` (the form). Easiest path: `git show <commit-before-removal>:src/components/AppointmentsPage.jsx > src/components/AppointmentsPage.jsx` and the same for the pages file. Either pull from history or have a fresh form built — the original was a structured in-page booking form (name, email, date, service type, message) with a confirmation state.
+2. **`src/App.jsx`** — re-import `AppointmentsPage` and add the route back: `<Route path="/appointments" element={<AppointmentsPage />} />`.
+3. **`src/components/Navigation.jsx`** — append `{ name: 'Appointments', path: '/appointments' }` to `navLinks` (between Collections and Contact).
+4. **`src/components/Footer.jsx`** — add `{ name: 'Appointments', href: '#/appointments' }` to `quickLinks`.
+5. **CTAs** — decide which "Visit Our Showroom" buttons should switch back to "Book Appointment" / "Schedule Consultation". The seven affected files are: `HomePage.jsx` (hero + CTA section), `ProductDetailPage.jsx`, `NaturalStonePage.jsx`, `QuartzPage.jsx`, `ShowerPanelsPage.jsx`, `CabinetsPage.jsx`, `ShowerPanelDetailPage.jsx`, `CabinetDetailPage.jsx`. Each currently links primary button to `/contact`; swap target back to `/appointments` and update label as the client wants.
+6. **Hours copy** — if Sunday should go back to "By Appointment", edit `src/components/Footer.jsx` (Mon-Fri/Sat/Sun block) and `src/components/ContactSection.jsx` (the `[day, hours]` array).
+7. **Visual tests** — re-add `appointments-hero` and `appointments-form` entries to `tests/visual.spec.js`, then `npm run test:visual:update` to regenerate baselines.
+8. **Docs** — update `CLAUDE.md` (Project Scope: replace "Walk-in policy" block with an Appointments bullet; Architecture: restore the AppointmentsPage wrapper note), add a `PROGRESS.md` entry, and write a new `docs/changelog/<date>-restore-appointments.md`.
+
+**Effort:** 30–45 minutes if pulling files from git; 2–3 hours if rebuilding the form.
+
+---
+
+## Recipe 19 — Edit, move, or remove the home brand-story section
+
+**When you'd do this:** client tweaks the "From Quarry to Home" copy on the homepage, asks for a different headline, wants the section relocated, or asks for it removed entirely.
+
+**Where it lives:** `src/pages/HomePage.jsx`, the `{/* Brand Story — ... */}` section between the hero and the Product Categories section. Two paragraphs of body copy in a 12-column grid (5-col headline + 7-col copy). **The same two paragraphs are mirrored in `src/components/Footer.jsx`** (brand column, under the "Premium Stones" wordmark) — when you edit the body copy, edit both places so the site speaks with one voice.
+
+**Common edits:**
+
+- **Change the body copy.** Replace the text inside the two `<p className="font-body ...">` elements on `HomePage.jsx`, AND replace the matching pair in `Footer.jsx`'s brand column (same two paragraphs, same wording). Keep them as separate paragraphs — the home spacing comes from the parent `space-y-6`; the footer pair uses `mb-4` between paragraphs and `mb-6` after the second to clear the social-icon row. Don't add a third paragraph without bumping the home grid breathing room (the section is already balanced visually) and re-checking that the footer column still fits within `max-w-xs`.
+- **Change the headline.** The H2 has a terracotta first phrase (`From Quarry`) and a warm-sienna italic second phrase (`to Home`). Edit the inner text but keep the wrapper `<span className="italic font-normal text-accent-warm">…</span>` for whichever word(s) should sit in the warm-sienna italic — that's the established editorial pattern (see HOW-TO-REVISE Recipe 2 for the full list of italic words across the site).
+- **Change the eyebrow.** The `<p className="label-text mb-4">Who We Are</p>` line. Anything 1–3 words, all-caps via the `label-text` utility.
+- **Move the section to a different position on Home.** It's a self-contained `<section>` block; cut it and paste at the new location. If you move it, double-check the `tests/visual.spec.js` scrolls — `home-about` is currently at scroll 750 and `home-collections` / `home-cta` at 1400 / 2300. Adjust those values so each named test still captures the section it claims to.
+- **Remove it.** Delete the `{/* Brand Story — ... */}` `<section>` AND the immediately-following `{/* Divider */}` block (the divider was added for this section). Then in `tests/visual.spec.js`, drop the `home-about` route and shift `home-collections` back to ~900 / `home-cta` back to ~2000 (the pre-2026-05-06 values). Run `npm run test:visual:update`.
+
+**Standard flow:** edit → `npm run build` → `npm run test:visual` → if intentional, `npm run test:visual:update` → commit code + baselines together. PROGRESS.md entry only if the change is more than a copy tweak.
+
+**Effort:** 2 minutes for a copy edit, 10 minutes for a move (because of the visual-test scroll updates), 5 minutes for removal.
+
+---
+
+## Recipe 20 — Edit, replace, or reorder hero-carousel slides
+
+**When you'd do this:** client supplies new hero photography, asks for different slide captions, wants the carousel to slow down / speed up, or wants slides re-ordered.
+
+**Where it lives:** the carousel itself is `src/components/HeroCarousel.jsx`. The `SLIDES` array near the top declares the slides (currently 2 — slide 0 is a kitchen with a CRISTALLUS-style natural-stone waterfall island, slide 1 is a quartz/marble feature wall in a living-dining room). Slide files live in either the `hero-section` Supabase Storage bucket (production) or `/public/hero/` (local copy — used both when the env var is missing AND when Supabase 404s a filename, via the `motion.img` `onError` that swaps to `heroImageLocalFallback()` in `src/lib/supabase.js`).
+
+**Common edits:**
+
+- **Replace one image, keeping the filename.** Upload the new file to the `hero-section` Supabase bucket using the same filename that's listed in `SLIDES[i].file`. No code change needed — `heroImageUrl()` will pick up the new bytes on next page load. If you want to replace the local copy too (so the test baseline matches), drop the same file at `public/hero/<filename>`. Then `npm run test:visual:update` to regenerate the `home-hero` baseline.
+- **Use a different filename.** Edit the `file` field on the relevant `SLIDES[i]` entry, drop the new file at `public/hero/<newname>`, and update `alt` to describe the new image. The carousel will render from the local copy immediately (the `onError` fallback handles the case where Supabase doesn't have the new filename yet); upload to the bucket later when convenient.
+- **Change a caption.** Edit the `title` and/or `meta` field on `SLIDES[i]`. The title renders display-serif; meta renders body-sans uppercase tracking-widest. Keep them short (title 1-3 words, meta 2-4 words) — the index strip is sized for that rhythm. Don't name countries other than Brazil unless the single-origin sourcing story has been retired (see Recipe 10).
+- **Re-order slides.** Reorder the `SLIDES` array. Slide 0 is the one that loads first (`fetchpriority="high"`, `loading="eager"`) — keep the lowest-cost / most-representative image in slot 0.
+- **Add a 3rd slide.** Append a new entry to `SLIDES`. Layout is robust — the desktop index strip currently uses `grid-cols-[repeat(2,1fr)_auto]`; for 3 slides change to `grid-cols-[repeat(3,1fr)_auto]`. Mobile uses `flex` with no count cap, no edit needed there. The auto-advance, progress bar, and keyboard handlers are count-agnostic.
+- **Remove a slide.** Delete its entry from `SLIDES`. Same desktop grid note as above (`repeat(1,1fr)_auto` for 1 slide). With a single slide, consider just inlining a static `<img>` and dropping the carousel altogether.
+- **Change the per-slide hold time.** Edit `SLIDE_HOLD_MS` (currently 6000ms). The progress-bar animation uses the same constant, so they stay in sync. Anything below ~3500ms feels jittery (caption barely registers); anything above ~9000ms feels stalled.
+- **Change the crossfade duration / easing.** Edit `FADE_MS` (1200ms) and `FADE_EASE` (`[0.22, 1, 0.36, 1]`, expo-out). Both crossfade and the inactive-slide scale-back share these — keeping them aligned is intentional so the outgoing slide's fade-out and zoom-back finish together.
+- **Disable Ken Burns (no scale drift).** Replace the `scale: prefersReduced ? 1 : isActive ? 1.06 : 1` line with `scale: 1`. The crossfade keeps working.
+- **Disable auto-advance entirely.** In the auto-advance `useEffect`, change the early return condition from `if (isPaused) return` to `return`. The pause/play toggle and ←/→ navigation still work; the slideshow just won't auto-tick.
+
+**Image specs:**
+
+- **Format:** JPEG fine; AVIF/WebP would be smaller but the existing JPGs are <500 KB which is acceptable. Don't use HEIC — Chrome/Firefox don't render it.
+- **Aspect:** anything horizontal works; the carousel uses `object-cover` to crop to the section size (`min-h-[calc(100vh+5rem)]`, full-bleed). Mildly squarer (4:3) crops fine too — the section is 1440×980 on desktop. Tall portraits will crop heavily — avoid them.
+- **Resolution:** 2000-2500px wide is the sweet spot. Both current slides are 2400px wide.
+- **Subject:** the asymmetric scrim is anchored to the lower-left where the H1 sits. Images with a dark / high-contrast lower-left work best (the scrim fades to transparent at the upper-right, so a bright upper-right is fine). If a new slide has a busy lower-left subject, AA contrast on the H1 may fail — deepen the scrim by editing the `radial-gradient` alpha values in `HeroCarousel.jsx` or pick a different image.
+
+**Standard flow:** edit / upload → `npm run build` → `npm run test:visual` → if intentional, `npm run test:visual:update` → commit code + baselines together. Update `PROGRESS.md` if the change is more than a copy tweak.
+
+**Effort:** 2 minutes for a caption edit, 5 minutes to swap a single image (with the local fallback you can ship before uploading to Supabase), 15 minutes to add or remove a slide (because of the grid template + visual-test regeneration).
+
+---
+
+## Recipe 21 — Swap a home collection-card image
+
+**When you'd do this:** client supplies new lifestyle photography for the Natural Stone or Quartz card on the home page, or the existing photo no longer represents the category well.
+
+**Where it lives:** `src/pages/HomePage.jsx`, the `productCategories` array near the top of the component. Each entry has an `image` field that points at a local file in `/public/collections/`. Files are bundled with the app — there is no Supabase fallback for the collection cards (deliberate: only 2 files, swapped once per revision round).
+
+**Common edits:**
+
+- **Replace one image, keeping the filename.** Drop the new file at `public/collections/<existing-filename>.jpg`. No code change — Vite serves the new bytes on next dev/build.
+- **Use a different filename.** Drop the new file in `public/collections/`, then update the matching `image` field in the `productCategories` array (e.g., `image: '/collections/<newname>.jpg'`). Old files don't auto-clean — delete the previous one if it's no longer referenced anywhere.
+- **Change the description.** Edit the `description` field on the same entry. Body sans, ~10 words max — the line clamps at the card width.
+
+**Image specs:**
+
+- **Format:** JPEG. Don't use HEIC.
+- **Aspect:** the card frame is `aspect-[4/3]` with `object-cover`, so anything roughly horizontal crops cleanly. Mildly wider (16:9) is fine; portraits will crop heavily.
+- **Resolution:** 1600-2400px wide. Both current images are 2000px wide, ~180-290 KB.
+- **Subject:** show the **material installed** in a finished space, not a slab close-up — that was the entire point of the 2026-05-06 swap. Natural Stone reads best as a dramatic, varied surface (marble veining, character); Quartz reads best as a clean, uniform surface (engineered, calm). The card overlay has a subtle dark wash on hover plus a small white-bordered arrow box bottom-right and an `01`/`02` numeral top-left — keep those zones from being dominated by white-on-white or busy-on-busy clashes.
+
+**Image sourcing:** Pexels and Unsplash are both fine (royalty-free for commercial use under their default license — Pexels needs no attribution, Unsplash recommends but doesn't require it). Search terms like `marble bathroom vanity`, `quartz kitchen island`, `marble feature wall` produce strong candidates. Use the highest-quality version available (`?w=2000` query param on Pexels; resolution selector on Unsplash).
+
+**.gitignore note:** `*.jpg` is gitignored site-wide. The carve-outs `!public/hero/*.jpg` and `!public/collections/*.jpg` ensure the bundled imagery actually ships — don't remove them, and add a parallel carve-out if a new image folder is introduced.
+
+**Standard flow:** drop the file → edit `image` field if filename changed → `npm run build` → `npm run test:visual` (passes unchanged because img tags are masked, **but** manually open the page in the browser to verify the new image renders well — the visual test won't catch a wrong-aspect or visually-broken image) → commit. Update `PROGRESS.md` revision log and the relevant entry in `docs/changelog/` for client visibility.
+
+**Effort:** 5 minutes to swap one image with a known good source; 15-30 minutes if you need to find the right photo.
+
+---
+
+## Recipe 22 — Edit phone numbers, addresses, hours, or add/remove a showroom
+
+**When you'd do this:** client opens a third location, closes one, changes a phone number, shifts business hours, or finally supplies the missing email address.
+
+The same contact data is rendered in **three places**, and they don't share a constant — each component holds its own array. If you only update one, the site will silently disagree with itself. The three places:
+
+1. **`src/components/Footer.jsx`** — the "Visit Us" column on every page (footer is rendered globally). Two stacked address+tel blocks + a hours block.
+2. **`src/components/ContactSection.jsx`** — the `showrooms` array near the top of the component (used on the `/contact` page). Two map-pin cards + a Business Hours card.
+3. **`src/pages/HomePage.jsx`** — the bottom CTA section. Two pieces:
+   - The `Call (XXX) XXX-XXXX` outline button (currently uses **San Rafael** as the primary number — `(415) 686-5392`).
+   - The "Two Showrooms" card on the right side, populated from a 2-entry inline array.
+
+### To change a phone number
+
+For each of the three files, find the matching number and replace **both** the display string `(415) 686-5392` AND the `tel:` href value `+14156865392` (the second has no spaces, no dashes, no parens). The HomePage CTA button is the only place where the number also appears in plain button label text — don't miss it.
+
+### To change an address
+
+For each of the three files, find the matching address. Footer uses two `<p>` tags; ContactSection uses an `addressLines: ['line1', 'line2']` array; HomePage CTA uses a `\n`-separated `address: 'line1\nline2'` string with `whitespace-pre-line` rendering. Match the format that's already there.
+
+### To change hours
+
+Two files only — Footer.jsx and ContactSection.jsx. Footer has a small two-line block (`Mon — Sat: 9AM — 5PM` / `Sun: 10AM — 4PM`); ContactSection has a `[day, hours]` 2-tuple array inside the Business Hours card. The HomePage CTA section does NOT display hours — it links visitors to the Contact page for that.
+
+If you change Sunday from "10 AM – 4 PM" to "Closed", or vice versa, **also update** the "Walk-in policy" section in `CLAUDE.md` (Project Scope) so future Claude Code sessions don't recommend the wrong story.
+
+### To add a third showroom
+
+1. Append a new entry to the `showrooms` array in `ContactSection.jsx` (`{ name, addressLines, phone, tel }`). The card layout is `space-y-4`, so a third card will stack cleanly without grid edits.
+2. Append a new block to the Footer "Visit Us" column. Match the structure of the existing San Rafael / Concord blocks (eyebrow with city name in `text-accent-warm`, two `<p>` lines for address, `<a href="tel:...">` for phone). The Footer column will simply get taller — no grid change needed since the column is one of four that flow vertically on all breakpoints.
+3. Append to the inline `[{...}, {...}]` array in `HomePage.jsx`'s "Two Showrooms" card. Each entry is `{ name, address, phone, tel }`. Update the heading from **"Two Showrooms"** to whatever now matches (e.g., **"Three Showrooms"**) and consider whether the CTA button still pointing only at the San Rafael number is right — you may want a dropdown or to change which line is primary.
+4. **Update `CLAUDE.md`** Walk-in policy section to list the third location, and **`PROGRESS.md`** Current state similarly.
+
+### To remove a showroom
+
+1. Delete its entry from the `showrooms` array in ContactSection, the matching block in Footer, and the matching entry in HomePage CTA's array.
+2. If you're left with **one** showroom, the "Two Showrooms" heading on HomePage stops making sense — change it to "Visit Our Showroom" or similar, and consider folding the array back to the single inline block. The Contact page card layout still works with 1 entry. Footer too.
+3. Update CLAUDE.md and PROGRESS.md to drop the removed location.
+
+### To add the email back when the client supplies it
+
+The site currently displays NO email anywhere — the `FiMail` import was dropped from `ContactSection.jsx` and `HomePage.jsx` along with the placeholder `info@premiumstone.com`.
+
+To restore:
+
+1. **ContactSection.jsx** — add `FiMail` back to the destructured `react-icons/fi` import. Below the `showrooms` map (or as a third card alongside the two locations), add an Email card following the same pattern as the showroom cards but with `FiMail` and a `mailto:` link.
+2. **Footer.jsx** — add the email line back inside one of the showroom blocks, OR as a separate block above the hours divider. Pattern: `<a href="mailto:...">...</a>` styled like the existing tel link.
+3. **HomePage.jsx** — optional. The CTA card was renamed to "Two Showrooms" specifically to focus on locations; adding a contact-method row would dilute that. Consider leaving the home page as-is and surfacing email only on `/contact` and in the footer.
+
+### Standard finish
+
+`npm run build`, `npm run test:visual`. Note that some of the affected views (the `contact` route at scroll 0, and the `home-cta` route at scroll 2300) may produce diffs that fall **under** the 60000-pixel threshold so the test still passes — but the baseline screenshot will be stale. For text-only contact-info edits this is usually fine; the next visual test that does fail will pick up the staleness eventually. To force the baselines to match the new content immediately, **delete the affected baseline PNGs from `tests/visual.spec.js-snapshots/`** and run `npm run test:visual:update` — fresh baselines will be written from scratch.
+
+Footer-affecting edits will additionally cause the four shadowed-route tests (`cabinets-grid`, `shower-panels-grid`, `cabinet-detail-specs`, `shower-panel-detail-specs`) to fail, because at scroll 700–800 those routes scroll past the short Coming Soon section into the footer. `npm run test:visual:update` accepts those baselines as the new look.
+
+Update `PROGRESS.md` revision log and add a `docs/changelog/<date>-<description>.md` entry. Commit code + baselines + docs together.
+
+**Effort:** 5 minutes for a single number / address / hours change; 15-20 minutes to add or remove a showroom because of the three-place edit + the doc updates.
 
 ---
 

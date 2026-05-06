@@ -232,8 +232,8 @@ const QuartzPage = () => {
               and colors — engineered for modern living.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link to="/appointments">
-                <button className="btn-primary">Schedule Consultation</button>
+              <Link to="/contact">
+                <button className="btn-primary">Visit Our Showroom</button>
               </Link>
               <Link to="/contact">
                 <button className="btn-outline">Contact Us</button>

@@ -126,13 +126,23 @@ const ProductDetailPage = () => {
                 </p>
               </div>
 
-              {/* Quick Specs */}
+              {/* Quick Specs — Natural Stone mirrors capristones.com (Material /
+                  Size / Thickness). Quartz keeps the older Origin / Finish /
+                  Material trio. Size is suppressed when blank (e.g. Arabescato
+                  whose cs.com page 404s — no scraped size available). */}
               <div className="grid grid-cols-3 gap-6 border border-stone-200 p-6">
-                {[
-                  { label: 'Origin', value: product.origin },
-                  { label: 'Finish', value: product.finish },
-                  { label: 'Material', value: product.material }
-                ].map((spec) => (
+                {(categoryPath === '/natural-stone'
+                  ? [
+                      { label: 'Material', value: product.material },
+                      { label: 'Size', value: product.size || '—' },
+                      { label: 'Thickness', value: product.thickness || '—' },
+                    ]
+                  : [
+                      { label: 'Origin', value: product.origin },
+                      { label: 'Finish', value: product.finish },
+                      { label: 'Material', value: product.material },
+                    ]
+                ).map((spec) => (
                   <div key={spec.label}>
                     <span className="label-text">{spec.label}</span>
                     <p className="font-body text-sm font-medium text-surface-dark mt-1">{spec.value}</p>
@@ -181,8 +191,8 @@ const ProductDetailPage = () => {
               and ensure the perfect result for your project.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link to="/appointments">
-                <button className="btn-primary">Schedule Consultation</button>
+              <Link to="/contact">
+                <button className="btn-primary">Visit Our Showroom</button>
               </Link>
               <Link to={categoryPath}>
                 <button className="btn-outline">Browse More {categoryLabel}</button>

@@ -167,8 +167,8 @@ const ShowerPanelDetailPage = () => {
               Our team can help you measure, template, and plan installation for a seamless result.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link to="/appointments">
-                <button className="btn-primary">Schedule Consultation</button>
+              <Link to="/contact">
+                <button className="btn-primary">Visit Our Showroom</button>
               </Link>
               <Link to="/shower-panels">
                 <button className="btn-outline">Browse More Panels</button>

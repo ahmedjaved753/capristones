@@ -28,3 +28,19 @@ export const stoneImageUrl = (filename) =>
 
 export const quartzImageUrl = (filename) =>
   supabase?.storage.from('quartz').getPublicUrl(filename).data.publicUrl ?? ''
+
+// Hero slideshow imagery on HomePage. Falls back to the local /hero/ copy in
+// /public when Supabase isn't configured (or before the bucket is populated)
+// so the homepage still renders during dev / first deploy. Once the bucket is
+// live, no code change is needed — the Supabase URL takes over automatically.
+export const heroImageUrl = (filename) =>
+  supabase?.storage.from('hero-section').getPublicUrl(filename).data.publicUrl
+    ?? `/hero/${filename}`
+
+// Local fallback path for a hero filename — the same `/hero/<filename>` shape
+// `heroImageUrl` returns when Supabase isn't configured. Use this with an
+// img `onError` so a slide whose filename hasn't been uploaded to the bucket
+// yet still renders from the bundled copy. This is the "transitional" state
+// after a slide is renamed locally but before the client uploads the new
+// bytes — without it the img would 404 and the hero would go black.
+export const heroImageLocalFallback = (filename) => `/hero/${filename}`

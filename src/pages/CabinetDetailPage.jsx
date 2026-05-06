@@ -165,11 +165,11 @@ const CabinetDetailPage = () => {
               Design This Cabinetry
             </h2>
             <p className="font-body text-base text-stone-500 mb-10 max-w-xl mx-auto leading-relaxed">
-              Schedule a design consultation and we'll size the boxes, match the finish, and quote the job.
+              Stop by the showroom and we'll size the boxes, match the finish, and quote the job. Walk-ins welcome.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link to="/appointments">
-                <button className="btn-primary">Book Consultation</button>
+              <Link to="/contact">
+                <button className="btn-primary">Visit Our Showroom</button>
               </Link>
               <Link to="/cabinets">
                 <button className="btn-outline">Browse More Cabinets</button>

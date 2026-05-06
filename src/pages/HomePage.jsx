@@ -3,22 +3,27 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import * as FiIcons from 'react-icons/fi';
 import SafeIcon from '../common/SafeIcon';
+import HeroCarousel from '../components/HeroCarousel';
 
-const { FiArrowRight, FiMapPin, FiPhone, FiMail } = FiIcons;
+const { FiArrowRight, FiMapPin, FiPhone } = FiIcons;
 
 const HomePage = () => {
+  // Lifestyle imagery for the collection cards (added 2026-05-06): each card shows
+  // the material installed in a finished space rather than a raw slab close-up.
+  // Files are bundled locally in /public/collections/. To swap, see HOW-TO-REVISE
+  // Recipe 21.
   const productCategories = [
     {
       name: 'Natural Stone',
       path: '/natural-stone',
-      image: 'https://images.unsplash.com/photo-1694378061058-bb6532de3bba?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+      image: '/collections/Collection-natural-stone-bathroom.jpg',
       description: 'Authentic natural stone with unique character and timeless beauty',
       label: '01'
     },
     {
       name: 'Quartz',
       path: '/quartz',
-      image: 'https://images.unsplash.com/photo-1554296048-b59c9fca4857?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+      image: '/collections/Collection-quartz-kitchen-island.jpg',
       description: 'Engineered quartz surfaces combining beauty with enduring durability',
       label: '02'
     }
@@ -26,83 +31,112 @@ const HomePage = () => {
 
   return (
     <div>
-      {/* Hero Section — negative margin pulls it behind the fixed nav so no gap is possible */}
-      <section className="relative min-h-[calc(100vh+5rem)] -mt-20 w-full overflow-hidden">
-        <div
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-          style={{
-            backgroundImage: `url('https://images.unsplash.com/photo-1615971677499-5467cbab01c0?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80')`
-          }}
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-surface-dark/60 via-accent/10 to-surface-dark/80" />
-
-        <div className="relative z-10 flex items-center h-full min-h-[calc(100vh+5rem)] pt-40 px-6 lg:px-8">
-          <div className="max-w-7xl mx-auto w-full">
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.8 }}
-            >
-              <p className="label-text text-stone-400 mb-6">
-                Premium Natural Stone & Quartz
-              </p>
-            </motion.div>
-
-            <motion.h1
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
-              className="font-display text-5xl sm:text-6xl lg:text-8xl font-bold text-white leading-[0.95] tracking-tight max-w-4xl"
-            >
-              Surfaces Built{' '}
-              <span className="italic font-normal text-accent-warm">
-                to Last
-              </span>
-            </motion.h1>
-
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.35 }}
-              className="font-body text-lg text-stone-300 mt-8 max-w-xl leading-relaxed"
-            >
-              Transform your space with our curated collection of natural stone
-              and engineered quartz. Exceptional quality meets timeless design.
-            </motion.p>
-
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.5 }}
-              className="flex flex-col sm:flex-row gap-4 mt-12"
-            >
-              <Link to="/appointments">
-                <button className="bg-white text-surface-dark px-10 py-4 font-body text-xs font-semibold uppercase tracking-widest hover:bg-accent hover:text-white transition-all duration-300 cursor-pointer">
-                  Book Appointment
-                </button>
-              </Link>
-              <Link to="/natural-stone">
-                <button className="border border-white/30 text-white px-10 py-4 font-body text-xs font-semibold uppercase tracking-widest hover:bg-white/10 transition-all duration-300 cursor-pointer">
-                  Explore Collections
-                </button>
-              </Link>
-            </motion.div>
-          </div>
-        </div>
-
-        {/* Scroll line */}
+      {/* Hero Section — HeroCarousel renders a 2-image auto-sliding background.
+          The editorial frame below (eyebrow / H1 / sub / CTAs) is passed in as
+          children and stays static while the lifestyle visuals change
+          underneath. The old scroll-cue chrome was retired here because the
+          index strip at the bottom of the carousel is a richer scroll
+          affordance. */}
+      <HeroCarousel>
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 1.2 }}
-          className="absolute bottom-12 left-6 lg:left-8 flex items-center gap-4"
+          transition={{ duration: 0.8 }}
         >
-          <div className="w-px h-16 bg-white/30" />
-          <span className="font-body text-[10px] uppercase tracking-widest text-white/50">
-            Scroll
-          </span>
+          <p className="label-text text-stone-300 mb-6">
+            Premium Natural Stone & Quartz
+          </p>
         </motion.div>
+
+        <motion.h1
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+          className="font-display text-5xl sm:text-6xl lg:text-8xl font-bold text-white leading-[0.95] tracking-tight max-w-4xl"
+        >
+          Surfaces Built{' '}
+          <span className="italic font-normal text-accent-warm">
+            to Last
+          </span>
+        </motion.h1>
+
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.35 }}
+          className="font-body text-lg text-stone-200 mt-8 max-w-xl leading-relaxed"
+        >
+          Transform your space with our curated collection of natural stone
+          and engineered quartz. Exceptional quality meets timeless design.
+        </motion.p>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.5 }}
+          className="flex flex-col sm:flex-row gap-4 mt-12 mb-40 md:mb-32"
+        >
+          <Link to="/contact">
+            <button className="bg-white text-surface-dark px-10 py-4 font-body text-xs font-semibold uppercase tracking-widest hover:bg-accent hover:text-white transition-all duration-300 cursor-pointer">
+              Visit Our Showroom
+            </button>
+          </Link>
+          <Link to="/natural-stone">
+            <button className="border border-white/40 text-white px-10 py-4 font-body text-xs font-semibold uppercase tracking-widest hover:bg-white/10 transition-all duration-300 cursor-pointer">
+              Explore Collections
+            </button>
+          </Link>
+        </motion.div>
+      </HeroCarousel>
+
+      {/* Brand Story — client-supplied copy (2026-05-06). Sits between hero and collections
+          so visitors see who Capri Stone is before browsing. To edit / remove,
+          see HOW-TO-REVISE Recipe 19. */}
+      <section className="py-32 px-6 lg:px-8 bg-white">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              viewport={{ once: true }}
+              className="lg:col-span-5"
+            >
+              <p className="label-text mb-4">Who We Are</p>
+              <h2 className="font-display text-4xl sm:text-5xl lg:text-6xl font-bold text-accent leading-[1.05]">
+                From Quarry{' '}
+                <span className="italic font-normal text-accent-warm">
+                  to Home
+                </span>
+              </h2>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.15 }}
+              viewport={{ once: true }}
+              className="lg:col-span-7 space-y-6"
+            >
+              <p className="font-body text-base text-stone-500 leading-relaxed">
+                At Capri Stone, innovation, creativity, and sustainability guide
+                everything we do — delivering excellence from the quarry to your
+                home.
+              </p>
+              <p className="font-body text-base text-stone-500 leading-relaxed">
+                We import premium natural stone, quartz, and kitchen cabinetry,
+                offering carefully curated materials to elevate both residential
+                and commercial spaces with timeless beauty and quality.
+              </p>
+            </motion.div>
+          </div>
+        </div>
       </section>
+
+      {/* Divider */}
+      <div className="max-w-7xl mx-auto px-6 lg:px-8">
+        <div className="section-divider" />
+      </div>
 
       {/* Product Categories */}
       <section className="py-32 px-6 lg:px-8 bg-surface">
@@ -188,22 +222,23 @@ const HomePage = () => {
               transition={{ duration: 0.5 }}
               viewport={{ once: true }}
             >
-              <p className="label-text mb-4">Book a Consultation</p>
+              <p className="label-text mb-4">Walk-Ins Welcome</p>
               <h2 className="font-display text-4xl sm:text-5xl font-bold text-accent leading-[1.05] mb-6">
                 Ready to Transform{' '}
                 <span className="italic font-normal text-accent-warm">Your Space?</span>
               </h2>
               <p className="font-body text-base text-stone-500 leading-relaxed mb-10 max-w-lg">
-                Schedule a consultation with our stone experts and discover how
-                premium materials can bring your vision to life.
+                Stop by the showroom any time during business hours — see the
+                stones in person, talk through your project, and walk out with a
+                plan. No appointment needed.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
-                <Link to="/appointments">
-                  <button className="btn-primary">Schedule Consultation</button>
-                </Link>
                 <Link to="/contact">
-                  <button className="btn-outline">Contact Us</button>
+                  <button className="btn-primary">Visit Our Showroom</button>
                 </Link>
+                <a href="tel:+14156865392">
+                  <button className="btn-outline">Call (415) 686-5392</button>
+                </a>
               </div>
             </motion.div>
 
@@ -215,23 +250,41 @@ const HomePage = () => {
               className="border border-stone-200 p-10"
             >
               <h3 className="font-display text-2xl font-bold text-accent mb-8">
-                Contact Information
+                Two Showrooms
               </h3>
+              {/* Both showrooms walk-in friendly — no appointment needed. Email is
+                  intentionally omitted until the client supplies it. */}
               <div className="space-y-6">
                 {[
-                  { icon: FiMapPin, label: 'Address', value: '1234 Stone Avenue\nPremium District, CA 90210' },
-                  { icon: FiPhone, label: 'Phone', value: '(555) 123-4567' },
-                  { icon: FiMail, label: 'Email', value: 'info@premiumstone.com' }
-                ].map((item) => (
-                  <div key={item.label} className="flex items-start gap-4">
+                  {
+                    name: 'San Rafael',
+                    address: '1925 Francisco Blvd E #15\nSan Rafael, CA 94901',
+                    phone: '(415) 686-5392',
+                    tel: '+14156865392'
+                  },
+                  {
+                    name: 'Concord',
+                    address: '1379 Franquette Ave\nConcord, CA 94520',
+                    phone: '(925) 786-4919',
+                    tel: '+19257864919'
+                  }
+                ].map((showroom) => (
+                  <div key={showroom.name} className="flex items-start gap-4">
                     <div className="w-10 h-10 border border-stone-200 flex items-center justify-center flex-shrink-0">
-                      <SafeIcon icon={item.icon} className="text-accent" />
+                      <SafeIcon icon={FiMapPin} className="text-accent" />
                     </div>
-                    <div>
-                      <p className="label-text mb-1">{item.label}</p>
+                    <div className="flex-1">
+                      <p className="label-text mb-1">Capri Stone — {showroom.name}</p>
                       <p className="font-body text-sm text-surface-dark whitespace-pre-line">
-                        {item.value}
+                        {showroom.address}
                       </p>
+                      <a
+                        href={`tel:${showroom.tel}`}
+                        className="font-body text-sm text-accent hover:text-surface-dark transition-colors duration-200 inline-flex items-center gap-2 mt-2"
+                      >
+                        <SafeIcon icon={FiPhone} className="text-xs" />
+                        {showroom.phone}
+                      </a>
                     </div>
                   </div>
                 ))}

@@ -310,10 +310,10 @@ const ShowerPanelsPage = () => {
               See the Panels in Person
             </h2>
             <p className="font-body text-base text-stone-500 mb-10 max-w-xl mx-auto leading-relaxed">
-              Book a showroom visit to see our shower panel displays at full scale and talk install options with our team.
+              Stop by the showroom to see our shower panel displays at full scale and talk install options with our team. Walk-ins welcome.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link to="/appointments">
+              <Link to="/contact">
                 <button className="btn-primary">Visit Our Showroom</button>
               </Link>
               <Link to="/contact">

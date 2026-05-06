@@ -34,11 +34,20 @@ dist-ssr
 !docs/changelog/assets/after/*.png
 # Brand logo IS committed — referenced as favicon in index.html and rendered in Navigation.jsx + Footer.jsx
 !public/logo.png
+# Hero carousel imagery IS committed — bundled locally so the site renders even if the
+# hero-section Supabase bucket isn't populated yet (HeroCarousel onError falls back to /hero/).
+!public/hero/*.jpg
+# Collection-card imagery IS committed — referenced from HomePage.jsx as /collections/<file>.jpg.
+!public/collections/*.jpg
 
 # Claude Code local state
 .claude/
 skills-lock.json
 .mcp.json
+
+# Per-round scratch space (downloads, intermediate files, generated manifests
+# for client to upload elsewhere). Never committed.
+.tmp/
 
 # Playwright visual regression test artifacts (not baselines — those live under
 # tests/visual.spec.js-snapshots/ and ARE committed)

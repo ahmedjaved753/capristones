@@ -17,15 +17,16 @@ First run: no baselines exist, so Playwright creates them and the first invocati
 
 ## What gets compared
 
-Twelve screenshots across the six routes, at sensible scroll positions:
+Screenshots across the in-scope routes, at sensible scroll positions:
 - Home: hero / collections / CTA
 - Natural-stone listing: hero / grid
 - Natural-stone product detail: hero / specs
 - Quartz listing: hero / grid
-- Appointments: hero / form
+- Shower-panels listing + detail: hero / grid / hero / specs (currently shadowed by Coming Soon)
+- Cabinets listing + detail: hero / grid / hero / specs (currently shadowed by Coming Soon)
 - Contact: full page
 
-Images (Unsplash photos) are **masked** during comparison so a temporarily-broken image URL or a slow load doesn't cause false failures. The tests focus on layout, heading colours, section backgrounds, button states — the design concerns, not the content concerns.
+Images are **masked** during comparison so a temporarily-broken image URL or a slow load doesn't cause false failures. The tests focus on layout, heading colours, section backgrounds, button states — the design concerns, not the content concerns. **Exception:** hero carousel slides (`<img class="hero-slide-img">` in `src/components/HeroCarousel.jsx`) are NOT masked, because they're bundled locally in `/public/hero/` (deterministic) and they ARE the design — masking them would defeat the test.
 
 ## Tolerances
 

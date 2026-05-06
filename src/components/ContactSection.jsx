@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import * as FiIcons from 'react-icons/fi';
 import SafeIcon from '../common/SafeIcon';
 
-const { FiPhone, FiMail, FiMapPin, FiArrowRight, FiClock } = FiIcons;
+const { FiPhone, FiMapPin, FiArrowRight, FiClock } = FiIcons;
 
 const ContactSection = () => {
   const [formData, setFormData] = useState({
@@ -24,10 +24,21 @@ const ContactSection = () => {
 
   const isFormValid = formData.name && formData.email && formData.message;
 
-  const contactInfo = [
-    { icon: FiPhone, title: 'Phone', content: '(555) 123-4567', subtitle: 'Mon-Fri 9AM-6PM' },
-    { icon: FiMail, title: 'Email', content: 'info@premiumstone.com', subtitle: 'We respond within 24 hours' },
-    { icon: FiMapPin, title: 'Address', content: '1234 Stone Avenue', subtitle: 'Premium District, CA 90210' }
+  // Two showrooms — both walk-in friendly during business hours.
+  // Email field is intentionally omitted: client will supply the address soon.
+  const showrooms = [
+    {
+      name: 'San Rafael',
+      addressLines: ['1925 Francisco Blvd E #15', 'San Rafael, CA 94901'],
+      phone: '(415) 686-5392',
+      tel: '+14156865392'
+    },
+    {
+      name: 'Concord',
+      addressLines: ['1379 Franquette Ave', 'Concord, CA 94520'],
+      phone: '(925) 786-4919',
+      tel: '+19257864919'
+    }
   ];
 
   return (
@@ -69,21 +80,31 @@ const ContactSection = () => {
             </p>
 
             <div className="space-y-4">
-              {contactInfo.map((info) => (
-                <div key={info.title} className="border border-stone-200 p-6 flex items-start gap-4">
+              {showrooms.map((showroom) => (
+                <div key={showroom.name} className="border border-stone-200 p-6 flex items-start gap-4">
                   <div className="w-10 h-10 border border-stone-200 flex items-center justify-center flex-shrink-0">
-                    <SafeIcon icon={info.icon} className="text-accent" />
+                    <SafeIcon icon={FiMapPin} className="text-accent" />
                   </div>
-                  <div>
-                    <p className="label-text mb-1">{info.title}</p>
-                    <p className="font-body text-sm font-medium text-surface-dark">{info.content}</p>
-                    <p className="font-body text-xs text-stone-400 mt-0.5">{info.subtitle}</p>
+                  <div className="flex-1">
+                    <p className="label-text mb-2">Capri Stone — {showroom.name}</p>
+                    <div className="font-body text-sm font-medium text-surface-dark">
+                      {showroom.addressLines.map((line) => (
+                        <p key={line}>{line}</p>
+                      ))}
+                    </div>
+                    <a
+                      href={`tel:${showroom.tel}`}
+                      className="font-body text-sm text-accent hover:text-surface-dark transition-colors duration-200 inline-flex items-center gap-2 mt-2"
+                    >
+                      <SafeIcon icon={FiPhone} className="text-xs" />
+                      {showroom.phone}
+                    </a>
                   </div>
                 </div>
               ))}
             </div>
 
-            {/* Business Hours */}
+            {/* Business Hours — apply to both showrooms. Walk-ins welcome; no appointment needed. */}
             <div className="border border-stone-200 p-6">
               <div className="flex items-center gap-3 mb-4">
                 <div className="w-10 h-10 border border-stone-200 flex items-center justify-center">
@@ -93,15 +114,17 @@ const ContactSection = () => {
               </div>
               <div className="space-y-2 ml-[52px]">
                 {[
-                  ['Monday — Friday', '9:00 AM — 6:00 PM'],
-                  ['Saturday', '10:00 AM — 4:00 PM'],
-                  ['Sunday', 'By Appointment']
+                  ['Monday — Saturday', '9:00 AM — 5:00 PM'],
+                  ['Sunday', '10:00 AM — 4:00 PM']
                 ].map(([day, hours]) => (
                   <div key={day} className="flex justify-between">
                     <span className="font-body text-sm text-stone-500">{day}</span>
                     <span className="font-body text-sm font-medium text-surface-dark">{hours}</span>
                   </div>
                 ))}
+                <p className="font-body text-xs text-stone-400 pt-2">
+                  Walk-ins welcome — no appointment needed.
+                </p>
               </div>
             </div>
           </motion.div>

@@ -13,7 +13,6 @@ import ShowerPanelDetailPage from './pages/ShowerPanelDetailPage';
 import CabinetsPage from './pages/CabinetsPage';
 import CabinetDetailPage from './pages/CabinetDetailPage';
 import ComingSoonPage from './pages/ComingSoonPage';
-import AppointmentsPage from './pages/AppointmentsPage';
 import ContactPage from './pages/ContactPage';
 import ProductDetailPage from './pages/ProductDetailPage';
 import './App.css';
@@ -37,7 +36,6 @@ function App() {
             {/* Cabinets — temporarily shadowed by ComingSoonPage. To restore: swap element={<ComingSoonPage .../>} back to element={<CabinetsPage />} / element={<CabinetDetailPage />}. */}
             <Route path="/cabinets" element={<ComingSoonPage category="Cabinets" />} />
             <Route path="/cabinets/:id" element={<ComingSoonPage category="Cabinets" />} />
-            <Route path="/appointments" element={<AppointmentsPage />} />
             <Route path="/contact" element={<ContactPage />} />
           </Routes>
         </main>

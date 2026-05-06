@@ -310,11 +310,11 @@ const CabinetsPage = () => {
               Design Your Cabinets With Us
             </h2>
             <p className="font-body text-base text-stone-500 mb-10 max-w-xl mx-auto leading-relaxed">
-              Book a cabinet-design consultation and we'll walk you through samples, hardware, and layout options in person.
+              Stop by the showroom and we'll walk you through samples, hardware, and layout options in person. Walk-ins welcome.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link to="/appointments">
-                <button className="btn-primary">Book Consultation</button>
+              <Link to="/contact">
+                <button className="btn-primary">Visit Our Showroom</button>
               </Link>
               <Link to="/contact">
                 <button className="btn-outline">Contact Us</button>
